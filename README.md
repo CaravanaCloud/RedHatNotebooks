@@ -14,5 +14,5 @@ Just open [```index.ipynb```](index.ipynb) in your favorite jupyter environment 
 
 ## Binder
 You can run this repository for free on Binder:
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/CaravanaCloud/RedHatNotebooks/HEAD){:target="_blank"}
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/CaravanaCloud/RedHatNotebooks/HEAD" target="_blank)
 
