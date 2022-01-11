@@ -1,5 +1,5 @@
 FROM python:3.10-slim
-RUN pip install --no-cache notebook
+RUN pip install --no-cache notebook jq
 ENV HOME=/tmp
 ### create user with a home directory
 ARG NB_USER
