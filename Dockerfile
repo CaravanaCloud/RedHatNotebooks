@@ -17,7 +17,9 @@ RUN mkdir -p /tmp/rhnb  && \
     su -c "mv  /tmp/rhnb/rosa /usr/local/bin/" && \ 
     rm /tmp/rhnb/rosa-linux.tar.gz && \
     rosa download oc && \
-    su -c "tar zxvf openshift-client-linux.tar.gz -C /usr/local/bin"
+    su -c "tar zxvf openshift-client-linux.tar.gz -C /usr/local/bin" && \
+    rm -rf openshift-client-linux.tar.gz   
+
 
 RUN pip install --no-cache notebook
 ENV HOME=/tmp
