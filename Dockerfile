@@ -9,6 +9,14 @@ RUN mkdir -p /tmp/rhnb  && \
     su -c "/tmp/rhnb/aws/install --update"  && \
     rm -rf /tmp/rhnb/awscliv2.zip  
 
+ENV ROSA_URL=https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/rosa/latest/rosa-linux.tar.gz
+
+RUN mkdir -p /tmp/rhnb  && \
+    wget -O /tmp/rhnb/rosa-linux.tar.gz $ROSA_URL && \ 
+    tar zxvf /tmp/rhnb/rosa-linux.tar.gz -C  /tmp/rhnb/ && \
+    su -c "mv  /tmp/rhnb/rosa /usr/local/bin/" && \ 
+    rm /tmp/rhnb/rosa-linux.tar.gz
+
 RUN pip install --no-cache notebook
 ENV HOME=/tmp
 
