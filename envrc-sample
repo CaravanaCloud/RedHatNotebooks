@@ -1,0 +1,10 @@
+export AWS_PROFILE="..."
+export AWS_REGION="..."
+export ROSA_TOKEN="..."
+export PULL_SECRET='...'
+export OCM_TOKEN='...'
+export CLUSTER_PASSWORD="..."
+export RHT_OCP4_DEV_USER="..."
+export DOCKER_USERNAME="..."
+export DOCKER_PASSWORD="..."
+export DOCKER_EMAIL="..."
