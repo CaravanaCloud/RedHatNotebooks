@@ -7,7 +7,7 @@ RUN mkdir -p /tmp/rhnb  && \
     rm -rf /tmp/rhnb/awscliv2.zip  && \
     curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/rhnb/awscliv2.zip"  && \
     unzip -o -q /tmp/rhnb/awscliv2.zip -d /tmp/rhnb/  && \
-    sudo /tmp/rhnb/aws/install --update  && \
+    su -s "/tmp/rhnb/aws/install --update"  && \
     rm -rf /tmp/rhnb/awscliv2.zip  
 
 RUN pip install --no-cache notebook
