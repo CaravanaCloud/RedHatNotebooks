@@ -15,7 +15,9 @@ RUN mkdir -p /tmp/rhnb  && \
     wget -q -O /tmp/rhnb/rosa-linux.tar.gz $ROSA_URL && \ 
     tar zxvf /tmp/rhnb/rosa-linux.tar.gz -C  /tmp/rhnb/ && \
     su -c "mv  /tmp/rhnb/rosa /usr/local/bin/" && \ 
-    rm /tmp/rhnb/rosa-linux.tar.gz
+    rm /tmp/rhnb/rosa-linux.tar.gz && \
+    rosa download oc && \
+    su -c "tar zxvf openshift-client-linux.tar.gz -C /usr/local/bin"
 
 RUN pip install --no-cache notebook
 ENV HOME=/tmp
