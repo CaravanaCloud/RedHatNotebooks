@@ -13,6 +13,9 @@ You can run the notebooks using jupyter in your computer or in a cloud environme
 Just open [```index.ipynb```](index.ipynb) in your favorite jupyter environment or even here in a browser. 
 
 ## Binder
-You can run this repository for free on Binder:
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/CaravanaCloud/RedHatNotebooks/HEAD" target="_blank)
+You can run this repository for free on Binder
+
+
+<a href="https://mybinder.org/v2/gh/CaravanaCloud/RedHatNotebooks/HEAD" target="blank"><img src="https://mybinder.org/badge_logo.svg"></a>
+
 
