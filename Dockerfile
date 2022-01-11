@@ -1,7 +1,7 @@
 FROM python:3.10-slim
 
 RUN apt update -y && \ 
-    apt install jq curl -y
+    apt install jq curl unzip -y
 
 RUN mkdir -p /tmp/rhnb  && \
     rm -rf /tmp/rhnb/awscliv2.zip  && \
