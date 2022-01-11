@@ -6,8 +6,8 @@ FROM python:3.10
 RUN mkdir -p /tmp/rhnb  && \
     curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/rhnb/awscliv2.zip"  && \
     unzip -o -q "/tmp/rhnb/awscliv2.zip" -d "/tmp/rhnb/"  && \
-    su -s "find /tmp/"  && \
-    su -s "/tmp/rhnb/aws/install --update"  && \
+    su -c "find /tmp/"  && \
+    su -c "/tmp/rhnb/aws/install --update"  && \
     rm -rf /tmp/rhnb/awscliv2.zip  
 
 RUN pip install --no-cache notebook
