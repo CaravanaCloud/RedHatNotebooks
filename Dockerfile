@@ -1,5 +1,5 @@
 FROM python:3.10-slim
-RUN apt install jq -y
+RUN apt update -y && apt install jq -y
 RUN pip install --no-cache notebook
 ENV HOME=/tmp
 ### create user with a home directory
