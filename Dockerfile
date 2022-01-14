@@ -24,7 +24,7 @@ ENV JDK=21.3.0.r17-grl
 RUN curl -s "https://get.sdkman.io" | bash
 RUN chmod a+x "$HOME/.sdkman/bin/sdkman-init.sh"
 
-RUN source "$HOME/.sdkman/bin/sdkman-init.sh"
+RUN "$HOME/.sdkman/bin/sdkman-init.sh"
 
 RUN curl -Ls https://sh.jbang.dev | bash -s - app install --fresh --force quarkus@quarkusio
 
