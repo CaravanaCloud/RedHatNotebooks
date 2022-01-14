@@ -23,8 +23,8 @@ RUN mkdir -p /tmp/rhnb  && \
 ENV JDK=21.3.0.r17-grl
 RUN curl -s "https://get.sdkman.io" | bash
 RUN chmod a+x "$HOME/.sdkman/bin/sdkman-init.sh"
-
 RUN "$HOME/.sdkman/bin/sdkman-init.sh"
+RUN sdk install java $JDK
 
 RUN curl -Ls https://sh.jbang.dev | bash -s - app install --fresh --force quarkus@quarkusio
 
