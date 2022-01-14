@@ -26,11 +26,9 @@ RUN (curl -s "https://get.sdkman.io" | bash) && \
     chmod a+x "$HOME/.sdkman/bin/sdkman-init.sh" && \
     source "$HOME/.sdkman/bin/sdkman-init.sh" && \
     sdk install java $JDK && \
-    sdk install jbang
-
-RUN jbang trust add https://repo1.maven.org/maven2/io/quarkus/quarkus-cli/ && \
-    curl -Ls https://sh.jbang.dev | bash -s - app install --fresh --force quarkus@quarkusio
-
+    sdk install jbang && \
+    jbang trust add https://repo1.maven.org/maven2/io/quarkus/quarkus-cli/ && \
+    jbang app install --fresh --force quarkus@quarkusio
 
 RUN pip install --no-cache notebook
 ENV HOME=/tmp
