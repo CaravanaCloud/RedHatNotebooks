@@ -21,9 +21,10 @@ RUN mkdir -p /tmp/rhnb  && \
     rm -rf openshift-client-linux.tar.gz   
 
 ENV JDK=21.3.0.r17-grl
-RUN (curl -s "https://get.sdkman.io" | bash) && \
-    source "/root/.sdkman/bin/sdkman-init.sh" && \
-    sdk install java $JDK
+RUN curl -s "https://get.sdkman.io" | bash
+RUN chmod a+x "$HOME/.sdkman/bin/sdkman-init.sh"
+
+RUN source "$HOME/.sdkman/bin/sdkman-init.sh"
 
 RUN curl -Ls https://sh.jbang.dev | bash -s - app install --fresh --force quarkus@quarkusio
 
