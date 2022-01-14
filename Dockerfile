@@ -1,6 +1,7 @@
 FROM python:3.10
 
 ENV ROSA_URL=https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/rosa/latest/rosa-linux.tar.gz
+ENV JDK=21.3.0.r17-grl
 
 RUN rm /bin/sh && \
     ln -s /bin/bash /bin/sh && \
@@ -21,11 +22,10 @@ RUN rm /bin/sh && \
     rm -rf openshift-client-linux.tar.gz && \
     pip install --no-cache notebook
 
-ENV HOME=/tmp
-
 ### create user with a home directory
 ARG NB_USER
 ARG NB_UID
+
 ENV USER ${NB_USER}
 ENV HOME /home/${NB_USER}
 
@@ -33,16 +33,14 @@ RUN adduser --disabled-password \
     --gecos "Default user" \
     --uid ${NB_UID} \
     ${NB_USER}
-WORKDIR ${HOME}
 
-# Make sure the contents of our repo are in ${HOME}
+WORKDIR ${HOME}
 COPY . ${HOME}
 
 USER root
 RUN chown -R ${NB_UID} ${HOME}
 
 USER ${NB_USER}
-ENV JDK=21.3.0.r17-grl
 RUN (curl -s "https://get.sdkman.io" | bash) && \
     chmod a+x "$HOME/.sdkman/bin/sdkman-init.sh" && \
     source "$HOME/.sdkman/bin/sdkman-init.sh" && \
