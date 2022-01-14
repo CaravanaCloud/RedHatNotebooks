@@ -1,6 +1,7 @@
 FROM python:3.10
-
-RUN apt update -y && \ 
+RUN rm /bin/sh && \
+    ln -s /bin/bash /bin/sh && \
+    apt update -y && \ 
     apt install jq zip unzip -y
 
 RUN mkdir -p /tmp/rhnb  && \
