@@ -1,28 +1,26 @@
 FROM python:3.10
-RUN rm /bin/sh && \
-    ln -s /bin/bash /bin/sh && \
-    apt update -y && \ 
-    apt install jq zip unzip -y
-
-RUN mkdir -p /tmp/rhnb  && \
-    curl -s "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/rhnb/awscliv2.zip"  && \
-    unzip -o -q "/tmp/rhnb/awscliv2.zip" -d "/tmp/rhnb/"  && \
-    su -c "/tmp/rhnb/aws/install --update"  && \
-    rm -rf /tmp/rhnb/awscliv2.zip  
 
 ENV ROSA_URL=https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/rosa/latest/rosa-linux.tar.gz
 
-RUN mkdir -p /tmp/rhnb  && \
+RUN rm /bin/sh && \
+    ln -s /bin/bash /bin/sh && \
+    apt update -y && \ 
+    apt install jq zip unzip -y && \
+    mkdir -p /tmp/rhnb  && \
+    curl -s "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/rhnb/awscliv2.zip"  && \
+    unzip -o -q "/tmp/rhnb/awscliv2.zip" -d "/tmp/rhnb/"  && \
+    su -c "/tmp/rhnb/aws/install --update"  && \
+    rm -rf /tmp/rhnb/awscliv2.zip  && \
+    mkdir -p /tmp/rhnb  && \
     wget -q -O /tmp/rhnb/rosa-linux.tar.gz $ROSA_URL && \ 
     tar zxvf /tmp/rhnb/rosa-linux.tar.gz -C  /tmp/rhnb/ && \
     su -c "mv  /tmp/rhnb/rosa /usr/local/bin/" && \ 
     rm /tmp/rhnb/rosa-linux.tar.gz && \
     rosa download oc && \
     su -c "tar zxvf openshift-client-linux.tar.gz -C /usr/local/bin" && \
-    rm -rf openshift-client-linux.tar.gz   
+    rm -rf openshift-client-linux.tar.gz && \
+    pip install --no-cache notebook
 
-
-RUN pip install --no-cache notebook
 ENV HOME=/tmp
 
 ### create user with a home directory
