@@ -1,7 +1,7 @@
 FROM python:3.10
 
 RUN apt update -y && \ 
-    apt install jq -y
+    apt install jq zip unzip -y
 
 RUN mkdir -p /tmp/rhnb  && \
     curl -s "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/rhnb/awscliv2.zip"  && \
@@ -51,3 +51,5 @@ RUN (curl -s "https://get.sdkman.io" | bash) && \
     sdk install jbang && \
     jbang trust add https://repo1.maven.org/maven2/io/quarkus/quarkus-cli/ && \
     jbang app install --fresh --force quarkus@quarkusio
+
+#EOF
