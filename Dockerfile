@@ -1,4 +1,5 @@
 FROM python:3.10
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
 RUN apt update -y && \ 
     apt install jq zip unzip -y
@@ -23,7 +24,7 @@ RUN mkdir -p /tmp/rhnb  && \
 ENV JDK=21.3.0.r17-grl
 RUN (curl -s "https://get.sdkman.io" | bash) && \
     chmod a+x "$HOME/.sdkman/bin/sdkman-init.sh" && \
-    "$HOME/.sdkman/bin/sdkman-init.sh" && \
+    source "$HOME/.sdkman/bin/sdkman-init.sh" && \
     sdk install java $JDK
 
 RUN curl -Ls https://sh.jbang.dev | bash -s - app install --fresh --force quarkus@quarkusio
