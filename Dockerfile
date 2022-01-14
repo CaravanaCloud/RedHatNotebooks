@@ -1,7 +1,7 @@
 FROM python:3.10
 
 RUN apt update -y && \ 
-    apt install jq -y
+    apt install jq zip unzip -y
 
 RUN mkdir -p /tmp/rhnb  && \
     curl -s "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/rhnb/awscliv2.zip"  && \
