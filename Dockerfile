@@ -51,3 +51,4 @@ RUN (curl -s "https://get.sdkman.io" | bash) && \
 
 RUN pip install --no-cache notebook
 ENV HOME=/tmp
+# END
