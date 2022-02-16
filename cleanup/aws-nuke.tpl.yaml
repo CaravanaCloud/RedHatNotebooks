@@ -1,0 +1,62 @@
+regions:
+- $CLN_REGION
+
+account-blocklist:
+- "999999999999" # production
+
+accounts:
+  $CLN_ACCOUNT:
+    filters:
+      EC2Instance:
+      - property: "tag:Name"
+        type: contains
+        value: "$CLN_TARGET"
+        invert: true
+      EC2Volume:
+      - property: "tag:Name"
+        type: contains
+        value: "$CLN_TARGET"
+        invert: true
+      EC2Address:
+      - property: "tag:Name"
+        type: contains
+        value: "$CLN_TARGET"
+        invert: true
+      EC2NATGateway:
+      - property: "tag:Name"
+        type: contains
+        value: "$CLN_TARGET"
+        invert: true
+      EC2Subnet:
+      - property: "tag:Name"
+        type: contains
+        value: "$CLN_TARGET"
+        invert: true
+      EC2RouteTable:
+      - property: "tag:Name"
+        type: contains
+        value: "$CLN_TARGET"
+        invert: true
+      EC2VPC:
+      - property: "tag:Name"
+        type: contains
+        value: "$CLN_TARGET"
+        invert: true
+      EC2InternetGateway:
+      - property: "tag:Name"
+        type: contains
+        value: "$CLN_TARGET"
+        invert: true
+
+resource-types:
+  targets:
+  - EC2Instance
+  - EC2Volume
+  - EC2NetworkInterface
+#  - EC2RouteTable
+#  - EC2InternetGateway
+#  - EC2NATGateway
+#  - EC2Address
+#  - EC2Subnet
+#  - EC2VPC
+# EOF
