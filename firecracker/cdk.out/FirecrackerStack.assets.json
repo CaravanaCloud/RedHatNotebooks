@@ -1,0 +1,19 @@
+{
+  "version": "16.0.0",
+  "files": {
+    "8c77267d2e4927be2e16162b5e4ea5c01b3d823b3935718be655bc00450463ee": {
+      "source": {
+        "path": "FirecrackerStack.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-current_region": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
+          "objectKey": "8c77267d2e4927be2e16162b5e4ea5c01b3d823b3935718be655bc00450463ee.json",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}
