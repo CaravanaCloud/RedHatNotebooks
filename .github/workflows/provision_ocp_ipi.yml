@@ -42,6 +42,18 @@ jobs:
           INSTALL_DIR: "/tmp/install-dir"
           INSTALL_CONFIG: "/tmp/install-dir/install-config.yaml"
       
+      - name: Cache openshift-install
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-openshift-install
+        with:
+          path: /usr/local/bin/
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('openshift-install') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
       - name: Download OpenShift Installer
         env:
           INSTALL_URL: https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/latest/openshift-install-linux.tar.gz
