@@ -2,6 +2,11 @@ name: Provision cluster using OCP IPI
 
 on: [workflow_call,workflow_dispatch]
 
+env:
+  OCP_INSTALL_DIR: /tmp/install-dir
+  OCP_INSTALL_CONFIG: /tmp/install-dir/install-config.yaml
+  OCP_INSTALL_TEMPLATE: ./provisioning/install_config.tpl.yaml
+
 jobs:
   all-steps:
     runs-on: ubuntu-latest
@@ -36,10 +41,19 @@ jobs:
           INSTALL_PATH: /usr/local/bin/
         run: |
           mkdir -p "$INSTALL_DIR"
-          wget -O "$INSTALL_FILE" "$INSTALL_URL"
+          wget -nv -O "$INSTALL_FILE" "$INSTALL_URL"
           tar zxvf "$INSTALL_FILE" -C "$INSTALL_DIR"
           sudo mv  "$INSTALL_TARGET" "$INSTALL_PATH" 
           rm "$INSTALL_FILE"
 
       - name: Check Openshift Installer
         run: openshift-install version
+
+      - name: Create Install Dir
+        run: mkdir -p "$OCP_INSTALL_DIR"
+      
+      - name: Generate Install Config
+        run: envsubst < "$OCP_INSTALL_TEMPLATE" > "$OCP_INSTALL_CONFIG"
+      
+      - name: Cat Install Config
+        run: cat "$OCP_INSTALL_CONFIG"
