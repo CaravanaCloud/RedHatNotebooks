@@ -7,6 +7,7 @@ env:
   OCP_INSTALL_DIR: /tmp/install-dir
   OCP_INSTALL_CONFIG: /tmp/install-dir/install-config.yaml
   OCP_INSTALL_TEMPLATE: ./provisioning/install_config.tpl.yaml
+  PULL_SECRET: ${{ secrets.PULL_SECRET }}
   OCP_BASE_DOMAIN: ${{ secrets.OCP_BASE_DOMAIN }}
   OCP_SSH_KEY: ${{ secrets.OCP_SSH_KEY }}
   OCP_AWS_REGION: eu-west-1
@@ -15,7 +16,6 @@ env:
   OCP_WORKER_TYPE: m5.2xlarge
   OCP_CONTROL_TYPE: m5.2xlarge
   OCP_CONTROL_REPLICAS: 3
-
 
 jobs:
   all-steps:
@@ -67,3 +67,9 @@ jobs:
       
       - name: Cat Install Config
         run: cat "$OCP_INSTALL_CONFIG"
+
+      - name: Store install config
+        uses: actions/upload-artifact@v3
+        with:
+          name: install-config.yaml
+          path: ${{ env.OCP_INSTALL_CONFIG }}
