@@ -71,7 +71,7 @@ jobs:
       - name: Generate Install Config
         run: envsubst < "$OCP_INSTALL_TEMPLATE" > "$OCP_INSTALL_CONFIG"
         env:
-          CLUSTER_NAME: ${{ steps.generate-cluster-name.outputs.value }}
+          OCP_NAME: ${{ steps.generate-cluster-name.outputs.value }}
 
       - name: Cat Install Config
         run: cat "$OCP_INSTALL_CONFIG"
