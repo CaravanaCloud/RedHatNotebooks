@@ -131,3 +131,12 @@ dmypy.json
 .envrc
 .vscode
 nohup.out
+image
+cluste-pull-secret.json
+buf.txt
+*_log.json
+temp.*
+*.temp
+openshift-tests
+tmp
+

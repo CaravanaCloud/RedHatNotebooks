@@ -7,27 +7,27 @@
         "file": "tree.json"
       }
     },
-    "FirecrackerStack.assets": {
+    "rhnb-firecracker-stack.assets": {
       "type": "cdk:asset-manifest",
       "properties": {
-        "file": "FirecrackerStack.assets.json",
+        "file": "rhnb-firecracker-stack.assets.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
       }
     },
-    "FirecrackerStack": {
+    "rhnb-firecracker-stack": {
       "type": "aws:cloudformation:stack",
       "environment": "aws://unknown-account/unknown-region",
       "properties": {
-        "templateFile": "FirecrackerStack.template.json",
+        "templateFile": "rhnb-firecracker-stack.template.json",
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/8c77267d2e4927be2e16162b5e4ea5c01b3d823b3935718be655bc00450463ee.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/db38054f5873769aa6bf06ffda22103fcfaa32d8494687551ef0830643eda98e.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
-          "FirecrackerStack.assets"
+          "rhnb-firecracker-stack.assets"
         ],
         "lookupRole": {
           "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
@@ -36,131 +36,131 @@
         }
       },
       "dependencies": [
-        "FirecrackerStack.assets"
+        "rhnb-firecracker-stack.assets"
       ],
       "metadata": {
-        "/FirecrackerStack/jufaerma-vpc/Resource": [
+        "/rhnb-firecracker-stack/jufaerma-vpc/Resource": [
           {
             "type": "aws:cdk:logicalId",
             "data": "jufaermavpc5FBB0BD2"
           }
         ],
-        "/FirecrackerStack/jufaerma-vpc/public-subnet-ASubnet1/Subnet": [
+        "/rhnb-firecracker-stack/jufaerma-vpc/public-subnet-ASubnet1/Subnet": [
           {
             "type": "aws:cdk:logicalId",
             "data": "jufaermavpcpublicsubnetASubnet1SubnetF34EF37F"
           }
         ],
-        "/FirecrackerStack/jufaerma-vpc/public-subnet-ASubnet1/RouteTable": [
+        "/rhnb-firecracker-stack/jufaerma-vpc/public-subnet-ASubnet1/RouteTable": [
           {
             "type": "aws:cdk:logicalId",
             "data": "jufaermavpcpublicsubnetASubnet1RouteTable0AD0A4D2"
           }
         ],
-        "/FirecrackerStack/jufaerma-vpc/public-subnet-ASubnet1/RouteTableAssociation": [
+        "/rhnb-firecracker-stack/jufaerma-vpc/public-subnet-ASubnet1/RouteTableAssociation": [
           {
             "type": "aws:cdk:logicalId",
             "data": "jufaermavpcpublicsubnetASubnet1RouteTableAssociation29BF7112"
           }
         ],
-        "/FirecrackerStack/jufaerma-vpc/public-subnet-ASubnet1/DefaultRoute": [
+        "/rhnb-firecracker-stack/jufaerma-vpc/public-subnet-ASubnet1/DefaultRoute": [
           {
             "type": "aws:cdk:logicalId",
             "data": "jufaermavpcpublicsubnetASubnet1DefaultRouteF26341F2"
           }
         ],
-        "/FirecrackerStack/jufaerma-vpc/public-subnet-ASubnet2/Subnet": [
+        "/rhnb-firecracker-stack/jufaerma-vpc/public-subnet-ASubnet2/Subnet": [
           {
             "type": "aws:cdk:logicalId",
             "data": "jufaermavpcpublicsubnetASubnet2Subnet2EDB84AF"
           }
         ],
-        "/FirecrackerStack/jufaerma-vpc/public-subnet-ASubnet2/RouteTable": [
+        "/rhnb-firecracker-stack/jufaerma-vpc/public-subnet-ASubnet2/RouteTable": [
           {
             "type": "aws:cdk:logicalId",
             "data": "jufaermavpcpublicsubnetASubnet2RouteTableB557D84F"
           }
         ],
-        "/FirecrackerStack/jufaerma-vpc/public-subnet-ASubnet2/RouteTableAssociation": [
+        "/rhnb-firecracker-stack/jufaerma-vpc/public-subnet-ASubnet2/RouteTableAssociation": [
           {
             "type": "aws:cdk:logicalId",
             "data": "jufaermavpcpublicsubnetASubnet2RouteTableAssociation1F014557"
           }
         ],
-        "/FirecrackerStack/jufaerma-vpc/public-subnet-ASubnet2/DefaultRoute": [
+        "/rhnb-firecracker-stack/jufaerma-vpc/public-subnet-ASubnet2/DefaultRoute": [
           {
             "type": "aws:cdk:logicalId",
             "data": "jufaermavpcpublicsubnetASubnet2DefaultRoute639E6C6E"
           }
         ],
-        "/FirecrackerStack/jufaerma-vpc/IGW": [
+        "/rhnb-firecracker-stack/jufaerma-vpc/IGW": [
           {
             "type": "aws:cdk:logicalId",
             "data": "jufaermavpcIGW6D27F71A"
           }
         ],
-        "/FirecrackerStack/jufaerma-vpc/VPCGW": [
+        "/rhnb-firecracker-stack/jufaerma-vpc/VPCGW": [
           {
             "type": "aws:cdk:logicalId",
             "data": "jufaermavpcVPCGWC68F1F90"
           }
         ],
-        "/FirecrackerStack/jufaerma-instance-role/Resource": [
+        "/rhnb-firecracker-stack/jufaerma-instance-role/Resource": [
           {
             "type": "aws:cdk:logicalId",
             "data": "jufaermainstanceroleE4580DA1"
           }
         ],
-        "/FirecrackerStack/jufaerma-firecracker-instance/InstanceSecurityGroup/Resource": [
+        "/rhnb-firecracker-stack/jufaerma-firecracker-instance/InstanceSecurityGroup/Resource": [
           {
             "type": "aws:cdk:logicalId",
             "data": "jufaermafirecrackerinstanceInstanceSecurityGroup03023EEC"
           }
         ],
-        "/FirecrackerStack/jufaerma-firecracker-instance/InstanceProfile": [
+        "/rhnb-firecracker-stack/jufaerma-firecracker-instance/InstanceProfile": [
           {
             "type": "aws:cdk:logicalId",
             "data": "jufaermafirecrackerinstanceInstanceProfile6748B497"
           }
         ],
-        "/FirecrackerStack/jufaerma-firecracker-instance/Resource": [
+        "/rhnb-firecracker-stack/jufaerma-firecracker-instance/Resource": [
           {
             "type": "aws:cdk:logicalId",
             "data": "jufaermafirecrackerinstance6CD3DF17"
           }
         ],
-        "/FirecrackerStack/SsmParameterValue:--aws--service--canonical--ubuntu--server--focal--stable--current--amd64--hvm--ebs-gp2--ami-id:C96584B6-F00A-464E-AD19-53AFF4B05118.Parameter": [
+        "/rhnb-firecracker-stack/SsmParameterValue:--aws--service--canonical--ubuntu--server--focal--stable--current--amd64--hvm--ebs-gp2--ami-id:C96584B6-F00A-464E-AD19-53AFF4B05118.Parameter": [
           {
             "type": "aws:cdk:logicalId",
             "data": "SsmParameterValueawsservicecanonicalubuntuserverfocalstablecurrentamd64hvmebsgp2amiidC96584B6F00A464EAD1953AFF4B05118Parameter"
           }
         ],
-        "/FirecrackerStack/CDKMetadata/Default": [
+        "/rhnb-firecracker-stack/CDKMetadata/Default": [
           {
             "type": "aws:cdk:logicalId",
             "data": "CDKMetadata"
           }
         ],
-        "/FirecrackerStack/CDKMetadata/Condition": [
+        "/rhnb-firecracker-stack/CDKMetadata/Condition": [
           {
             "type": "aws:cdk:logicalId",
             "data": "CDKMetadataAvailable"
           }
         ],
-        "/FirecrackerStack/BootstrapVersion": [
+        "/rhnb-firecracker-stack/BootstrapVersion": [
           {
             "type": "aws:cdk:logicalId",
             "data": "BootstrapVersion"
           }
         ],
-        "/FirecrackerStack/CheckBootstrapVersion": [
+        "/rhnb-firecracker-stack/CheckBootstrapVersion": [
           {
             "type": "aws:cdk:logicalId",
             "data": "CheckBootstrapVersion"
           }
         ]
       },
-      "displayName": "FirecrackerStack"
+      "displayName": "rhnb-firecracker-stack"
     }
   }
 }
