@@ -16,4 +16,4 @@ jobs:
       - name: Debug Variables
         run: echo "CLUSTER_NAME=$CLUSTER_NAME"
         env:
-          CLUSTER_NAME: ${{ steps.generate-cluster-name.outputs.test }}
+          CLUSTER_NAME: ${{ steps.generate-cluster-name.outputs.value }}
