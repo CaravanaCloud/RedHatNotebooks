@@ -2,14 +2,18 @@ name: Provision cluster using OCP IPI
 
 on: [workflow_call,workflow_dispatch]
 
-
 jobs:
   all-steps:
     runs-on: ubuntu-latest
+    
+    outputs:
+      cluster_name: ${{ steps.generate-cluster-name.outputs.value }}
+
     steps:
-      - name: Check out repository code
-        uses: actions/checkout@v2
+      - id: generate-cluster-name
+        run: echo "::set-output name=value::rhnb-$RANDOM"
 
-      - name: Say hi
-        run: echo "Hi"
-
+      - name: Debug Variables
+        run: echo "CLUSTER_NAME=$CLUSTER_NAME"
+        env:
+          CLUSTER_NAME: ${{ steps.generate-cluster-name.outputs.test }}
