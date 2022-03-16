@@ -73,3 +73,15 @@ jobs:
         with:
           name: install-config.yaml
           path: ${{ env.OCP_INSTALL_CONFIG }}
+      
+      - name: Create cluster
+        env:
+          LOG_LEVEL: info
+        run: openshift-install create cluster --dir "$OCP_INSTALL:DIR" --log-level=$LOG_LEVEL
+
+      - name: Debug stuff
+        run: |
+          find "$OCP_INSTALL"
+          find . 
+
+        
