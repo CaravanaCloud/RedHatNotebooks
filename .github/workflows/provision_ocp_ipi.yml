@@ -1,4 +1,4 @@
-# && git commit --allow-empty -am "Updated ocp ipi workflow $(date)" && git push && gh workflow run provision_ocp_ipi.yml
+# git commit --allow-empty -am "Updated ocp ipi workflow $(date)" && git push && gh workflow run provision_ocp_ipi.yml
 name: Provision cluster using OCP IPI
 
 on: [workflow_call,workflow_dispatch]
@@ -77,7 +77,7 @@ jobs:
       - name: Create cluster
         env:
           LOG_LEVEL: info
-        run: openshift-install create cluster --dir "$OCP_INSTALL:DIR" --log-level=$LOG_LEVEL
+        run: openshift-install create cluster --dir "$OCP_INSTALL_DIR" --log-level=$LOG_LEVEL
 
       - name: Debug stuff
         run: |
