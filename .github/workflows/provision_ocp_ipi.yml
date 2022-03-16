@@ -28,12 +28,18 @@ jobs:
           INSTALL_CONFIG: "/tmp/install-dir/install-config.yaml"
       
       - name: Download OpenShift Installer
+        env:
+          INSTALL_URL: https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/latest/openshift-install-linux.tar.gz
+          INSTALL_DIR: /tmp/openshift-installer
+          INSTALL_FILE: /tmp/openshift-installer/openshift-install-linux.tar.gz
+          INSTALL_TARGET: /tmp/openshift-installer/openshift-install
+          INSTALL_PATH: /usr/local/bin/
         run: |
-          mkdir -p /tmp/openshift-installer
-          wget -O /tmp/openshift-installer/openshift-install-linux.tar.gz https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/latest/openshift-install-linux.tar.gz
-          tar zxvf /tmp/openshift-installer/openshift-install-linux.tar.gz -C  /tmp/openshift-installer/
-          sudo mv  /tmp/openshift-installer/openshift-install /usr/local/bin/ 
-          rm /tmp/openshift-installer/openshift-install-linux.tar.gz
-      
+          mkdir -p "$INSTALL_DIR"
+          wget -O "$INSTALL_FILE" "$INSTALL_URL"
+          tar zxvf "$INSTALL_FILE" -C "$INSTALL_DIR"
+          sudo mv  "$INSTALL_TARGET" "$INSTALL_PATH" 
+          rm "$INSTALL_FILE"
+
       - name: Check Openshift Installer
-        run: openshift-install --version
+        run: openshift-install version
