@@ -89,7 +89,7 @@ jobs:
       - name: Create cluster
         env:
           LOG_LEVEL: info
-        run: openshift-install create cluster --dir "$OCP_INSTALL_DIR" --log-level=$LOG_LEVEL
+        run: echo "nada" # openshift-install create cluster --dir "$OCP_INSTALL_DIR" --log-level=$LOG_LEVEL
 
       - name: Debug stuff
         run: |
