@@ -93,7 +93,7 @@ jobs:
 
       - name: Debug stuff
         run: |
-          find "$OCP_INSTALL"
+          find "$OCP_INSTALL_DIR"
           find . 
 
         
