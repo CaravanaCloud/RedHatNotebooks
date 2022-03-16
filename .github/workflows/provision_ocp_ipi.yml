@@ -72,7 +72,7 @@ jobs:
         run: envsubst < "$OCP_INSTALL_TEMPLATE" > "$OCP_INSTALL_CONFIG"
         env:
           CLUSTER_NAME: ${{ steps.generate-cluster-name.outputs.value }}
-          
+
       - name: Cat Install Config
         run: cat "$OCP_INSTALL_CONFIG"
 
@@ -85,7 +85,7 @@ jobs:
       - name: Create cluster
         env:
           LOG_LEVEL: info
-        run: echo "nada" # openshift-install create cluster --dir "$OCP_INSTALL_DIR" --log-level=$LOG_LEVEL
+        run: openshift-install create cluster --dir "$OCP_INSTALL_DIR" --log-level=$LOG_LEVEL
 
       - name: Debug stuff
         run: |
