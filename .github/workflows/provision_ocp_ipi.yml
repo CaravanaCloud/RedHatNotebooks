@@ -17,3 +17,13 @@ jobs:
         run: echo "CLUSTER_NAME=$CLUSTER_NAME"
         env:
           CLUSTER_NAME: ${{ steps.generate-cluster-name.outputs.value }}
+      
+      - name: Check out repository code
+        uses: actions/checkout@v2
+
+      - name: Generate install config
+        run: env
+        env:
+          INSTALL_DIR: "/tmp/install-dir"
+          INSTALL_CONFIG: "/tmp/install-dir/install-config.yaml"
+          
