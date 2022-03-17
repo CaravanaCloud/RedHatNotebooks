@@ -93,12 +93,6 @@ jobs:
       - name: Cat Install Config
         run: cat "$OCP_INSTALL_CONFIG"
 
-      - name: Store install config
-        uses: actions/upload-artifact@v3
-        with:
-          name: install-config.yaml
-          path: ${{ env.OCP_INSTALL_CONFIG }}
-      
       - name: Create cluster
         env:
           LOG_LEVEL: info
@@ -109,4 +103,23 @@ jobs:
           find "$OCP_INSTALL_DIR"
           find . 
 
-        
+      - name: Store install config
+        uses: actions/upload-artifact@v3
+        with:
+          name: install-config.yaml
+          path: ${{ env.OCP_INSTALL_CONFIG }}
+          retention-days: 14
+
+      - name: Store kubeconfig
+        uses: actions/upload-artifact@v3
+        with:
+          name: kubeconfig
+          path: /tmp/install-dir/auth/kubeconfig
+          retention-days: 14
+      
+      - name: Store install-dir
+        uses: actions/upload-artifact@v3
+        with:
+          name: kubeconfig
+          path: /tmp/install-dir
+          retention-days: 7
