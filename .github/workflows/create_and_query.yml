@@ -4,7 +4,7 @@ on: [workflow_dispatch]
 
 jobs:
   create_ocp_aws_ipi:
-    uses: ./.github/workflows/workflow-2.yml
+    uses: ./.github/workflows/create_opc_aws_ipi.yml
 
   print_version:
     runs-on: ubuntu-latest
