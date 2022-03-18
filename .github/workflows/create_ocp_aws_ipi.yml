@@ -114,8 +114,11 @@ jobs:
 
       - name: Debug stuff
         run: |
-          find "$OCP_INSTALL_DIR"
+          echo "-- HOME=$HOME"
+          echo "-- PWD=$PWD"
           find . 
+          echo "-- INSTALL_DIR"
+          find "$OCP_INSTALL_DIR"
 
       - name: Store kubeconfig
         uses: actions/upload-artifact@v3
