@@ -5,7 +5,7 @@ on:
 
 jobs:
   create_ocp_aws_ipi:
-    uses: CaravanaCloud/RedHatNotebooks/.github/workflows/create_opc_aws_ipi.yml@main
+    uses: CaravanaCloud/RedHatNotebooks/.github/workflows/create_ocp_aws_ipi.yml@main
 
   print_version:
     runs-on: ubuntu-latest
