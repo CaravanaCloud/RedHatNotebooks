@@ -4,8 +4,8 @@ on:
   workflow_dispatch: {}
 
 jobs:
-#  create_ocp_aws_ipi:
-#    uses: CaravanaCloud/RedHatNotebooks/.github/workflows/create_opc_aws_ipi.yml
+  create_ocp_aws_ipi:
+    uses: CaravanaCloud/RedHatNotebooks/.github/workflows/create_opc_aws_ipi.yml@main
 
   print_version:
     runs-on: ubuntu-latest
