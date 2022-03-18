@@ -3,6 +3,13 @@ name: Provision cluster using OCP IPI
 
 on: 
   workflow_call:
+    secrets:
+        PULL_SECRET:
+          required: true
+        OCP_BASE_DOMAIN:
+          required: true
+        OCP_SSH_KEY: 
+          required: true
     inputs:
       aws_region:
         type: string

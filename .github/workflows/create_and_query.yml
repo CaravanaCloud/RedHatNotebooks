@@ -8,6 +8,9 @@ jobs:
     uses: CaravanaCloud/RedHatNotebooks/.github/workflows/create_ocp_aws_ipi.yml@main
     with:
       aws_region: ap-northeast-1
+      PULL_SECRET: ${{ secrets.PULL_SECRET }}
+      OCP_BASE_DOMAIN: ${{ secrets.OCP_BASE_DOMAIN }}
+      OCP_SSH_KEY: ${{ secrets.OCP_SSH_KEY }}
 
   print_version:
     runs-on: ubuntu-latest
