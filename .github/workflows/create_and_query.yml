@@ -11,7 +11,8 @@ jobs:
       OCP_BASE_DOMAIN: ${{ secrets.OCP_BASE_DOMAIN }}
       OCP_SSH_KEY: ${{ secrets.OCP_SSH_KEY }}
       OCP_AWS_REGION: ${{ secrets.OCP_AWS_REGION }}
-
+      OCP_AWS_ACCESS_KEY_ID: ${{ secrets.OCP_AWS_ACCESS_KEY_ID }}
+      OCP_AWS_SECRET_ACCESS_KEY: ${{ secrets.OCP_AWS_SECRET_ACCESS_KEY }}
   print_version:
     runs-on: ubuntu-latest
     steps:

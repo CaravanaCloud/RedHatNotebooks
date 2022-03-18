@@ -18,6 +18,10 @@ on:
         required: true
       OCP_SSH_KEY: 
         required: true
+      OCP_AWS_ACCESS_KEY_ID:
+        required: true
+      OCP_AWS_SECRET_ACCESS_KEY:
+        required: true
 
 env:
   OCP_INSTALL_DIR: /tmp/install-dir
