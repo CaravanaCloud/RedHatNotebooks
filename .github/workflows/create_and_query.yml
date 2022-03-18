@@ -1,6 +1,7 @@
 name: Create cluster and query it
 
-on: [workflow_dispatch]
+on:
+  workflow_dispatch: {}
 
 jobs:
   create_ocp_aws_ipi:
