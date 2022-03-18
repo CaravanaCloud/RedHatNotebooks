@@ -1,0 +1,12 @@
+name: Ultimate Question of Life, the Universe, and Everything
+
+on: [workflow_dispatch]
+
+jobs:
+  all-steps:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Task Tree
+          uses: CaravanaCloud/task-tree@v1.0.20220318114521
+          env:
+            TT_TASK: marvin
