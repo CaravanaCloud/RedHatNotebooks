@@ -2,6 +2,13 @@
 name: Provision cluster using OCP IPI
 
 on: 
+  workflow_call:
+    inputs:
+      aws_region:
+        type: string
+        description: Default AWS Region
+        required: false
+        default: us-east-1
   workflow_dispatch:
     inputs:
       aws_region:
@@ -93,6 +100,13 @@ jobs:
       - name: Cat Install Config
         run: cat "$OCP_INSTALL_CONFIG"
 
+      - name: Preserve install config
+        uses: actions/upload-artifact@v3
+        with:
+          name: install-config.yaml
+          path: ${{ env.OCP_INSTALL_CONFIG }}
+          retention-days: 14
+
       - name: Create cluster
         env:
           LOG_LEVEL: info
@@ -102,13 +116,6 @@ jobs:
         run: |
           find "$OCP_INSTALL_DIR"
           find . 
-
-      - name: Store install config
-        uses: actions/upload-artifact@v3
-        with:
-          name: install-config.yaml
-          path: ${{ env.OCP_INSTALL_CONFIG }}
-          retention-days: 14
 
       - name: Store kubeconfig
         uses: actions/upload-artifact@v3
@@ -120,6 +127,6 @@ jobs:
       - name: Store install-dir
         uses: actions/upload-artifact@v3
         with:
-          name: kubeconfig
+          name: install-dir
           path: /tmp/install-dir
           retention-days: 7

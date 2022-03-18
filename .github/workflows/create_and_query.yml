@@ -1,0 +1,13 @@
+name: Create cluster and query it
+
+on: [workflow_dispatch]
+
+jobs:
+  create_ocp_aws_ipi:
+    uses: ./.github/workflows/workflow-2.yml
+
+  print_version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print the versions
+        run: oc version
