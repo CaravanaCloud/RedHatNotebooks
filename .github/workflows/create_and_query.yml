@@ -6,7 +6,9 @@ on:
 jobs:
   create_ocp_aws_ipi:
     uses: CaravanaCloud/RedHatNotebooks/.github/workflows/create_ocp_aws_ipi.yml@main
-
+    with:
+      aws-region: ap-northeast-1
+          
   print_version:
     runs-on: ubuntu-latest
     steps:
