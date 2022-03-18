@@ -10,20 +10,14 @@ on:
         required: false
         default: us-east-1
     secrets:
+      OCP_AWS_REGION:
+        required: true
       PULL_SECRET:
         required: true
       OCP_BASE_DOMAIN:
         required: true
       OCP_SSH_KEY: 
         required: true
-
-  workflow_dispatch:
-    inputs:
-      aws_region:
-        type: string
-        description: Default AWS Region
-        required: false
-        default: us-east-1
 
 env:
   OCP_INSTALL_DIR: /tmp/install-dir
@@ -32,7 +26,7 @@ env:
   PULL_SECRET: ${{ secrets.PULL_SECRET }}
   OCP_BASE_DOMAIN: ${{ secrets.OCP_BASE_DOMAIN }}
   OCP_SSH_KEY: ${{ secrets.OCP_SSH_KEY }}
-  OCP_AWS_REGION: ${{ github.event.inputs.aws_region }}
+  OCP_AWS_REGION: ${{ secrets.OCP_AWS_REGION }}
   OCP_ARCH: amd64
   OCP_WORKER_REPLICAS: 3
   OCP_WORKER_TYPE: m5.2xlarge
