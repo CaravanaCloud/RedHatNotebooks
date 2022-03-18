@@ -6,8 +6,6 @@ on:
 jobs:
   create_ocp_aws_ipi:
     uses: CaravanaCloud/RedHatNotebooks/.github/workflows/create_ocp_aws_ipi.yml@main
-    with:
-      
     secrets:  
       PULL_SECRET: ${{ secrets.PULL_SECRET }}
       OCP_BASE_DOMAIN: ${{ secrets.OCP_BASE_DOMAIN }}
