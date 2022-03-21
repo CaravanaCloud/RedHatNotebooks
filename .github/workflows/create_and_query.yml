@@ -1,11 +1,19 @@
 name: Create cluster and query it
 
 on:
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        type: boolean
+        description: safety flag
+        required: false
+        default: true
 
 jobs:
   create_ocp_aws_ipi:
     uses: CaravanaCloud/RedHatNotebooks/.github/workflows/create_ocp_aws_ipi.yml@main
+    with:
+      dry_run: ${{ inputs.dry_run }}
     secrets:  
       PULL_SECRET: ${{ secrets.PULL_SECRET }}
       OCP_BASE_DOMAIN: ${{ secrets.OCP_BASE_DOMAIN }}
@@ -13,6 +21,7 @@ jobs:
       OCP_AWS_REGION: ${{ secrets.OCP_AWS_REGION }}
       OCP_AWS_ACCESS_KEY_ID: ${{ secrets.OCP_AWS_ACCESS_KEY_ID }}
       OCP_AWS_SECRET_ACCESS_KEY: ${{ secrets.OCP_AWS_SECRET_ACCESS_KEY }}
+  
   print_version:
     needs: create_ocp_aws_ipi
     runs-on: ubuntu-latest  
