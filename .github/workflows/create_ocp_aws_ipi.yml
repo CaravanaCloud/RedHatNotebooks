@@ -4,6 +4,11 @@ name: Provision cluster using OCP IPI
 on: 
   workflow_call:
     inputs:
+      dry_run:
+        type: boolean
+        description: safety flag
+        required: false
+        default: true
       aws_region:
         type: string
         description: TODO AWS Region
@@ -40,7 +45,7 @@ env:
   OCP_WORKER_TYPE: m5.2xlarge
   OCP_CONTROL_TYPE: m5.2xlarge
   OCP_CONTROL_REPLICAS: 3
-  OCP_DRY_RUN: true
+  OCP_DRY_RUN: ${{ inputs.dry_run }}
 
 jobs:
   create-cluster:
