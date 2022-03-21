@@ -14,6 +14,7 @@ jobs:
       OCP_AWS_ACCESS_KEY_ID: ${{ secrets.OCP_AWS_ACCESS_KEY_ID }}
       OCP_AWS_SECRET_ACCESS_KEY: ${{ secrets.OCP_AWS_SECRET_ACCESS_KEY }}
   print_version:
+    needs: create_ocp_aws_ipi
     runs-on: ubuntu-latest
     steps:
       - name: Print the versions

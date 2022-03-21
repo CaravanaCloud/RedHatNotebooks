@@ -36,6 +36,7 @@ env:
   OCP_WORKER_TYPE: m5.2xlarge
   OCP_CONTROL_TYPE: m5.2xlarge
   OCP_CONTROL_REPLICAS: 3
+  OCP_DRY_RUN: true
 
 jobs:
   all-steps:
@@ -114,6 +115,7 @@ jobs:
           retention-days: 14
 
       - name: Create cluster
+        if: ${{ ! env.OCP_DRY_RUN }}
         env:
           LOG_LEVEL: info
         run: openshift-install create cluster --dir "$OCP_INSTALL_DIR" --log-level=$LOG_LEVEL
