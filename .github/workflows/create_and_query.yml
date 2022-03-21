@@ -24,9 +24,12 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: install-dir
+          path: install-dir
       
       - name: Print the versions
         run: oc version
+        env:
+          KUBECONFIG: ./install-dir/auth/kubeconfig
 
       - name: Debug stuff
         run: find .
