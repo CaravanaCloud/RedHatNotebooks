@@ -5,10 +5,10 @@ on:
   workflow_call:
     inputs:
       dry_run:
-        type: boolean
+        type: string
         description: safety flag
         required: false
-        default: true
+        default: 'true'
       aws_region:
         type: string
         description: TODO AWS Region
@@ -124,7 +124,7 @@ jobs:
           retention-days: 14
 
       - name: Create cluster
-        if: ${{ ! env.OCP_DRY_RUN }}
+        if: ${{ inputs.dry_run == 'false' }} 
         env:
           LOG_LEVEL: info
         run: openshift-install create cluster --dir "$OCP_INSTALL_DIR" --log-level=$LOG_LEVEL
