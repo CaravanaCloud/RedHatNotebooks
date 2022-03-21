@@ -20,5 +20,13 @@ jobs:
       - name: Print cluster name
         run: echo "CLUSTER_NAME=${{ needs.create_ocp_aws_ipi.outputs.cluster_name }}"
 
+      - name: Download install-dir
+        uses: actions/download-artifact@v3
+        with:
+          name: install-dir
+      
       - name: Print the versions
         run: oc version
+
+      - name: Debug stuff
+        run: find .
