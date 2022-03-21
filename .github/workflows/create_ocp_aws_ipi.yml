@@ -6,9 +6,13 @@ on:
     inputs:
       aws_region:
         type: string
-        description: Default AWS Region
+        description: TODO AWS Region
         required: false
         default: us-east-1
+    outputs:
+      cluster_name:
+        description: Generated cluster name
+        value: ${{ jobs.create-cluster.outputs.cluster_name }}
     secrets:
       OCP_AWS_REGION:
         required: true
@@ -39,7 +43,7 @@ env:
   OCP_DRY_RUN: true
 
 jobs:
-  all-steps:
+  create-cluster:
     runs-on: ubuntu-latest
     
     outputs:

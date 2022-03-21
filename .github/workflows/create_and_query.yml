@@ -15,7 +15,10 @@ jobs:
       OCP_AWS_SECRET_ACCESS_KEY: ${{ secrets.OCP_AWS_SECRET_ACCESS_KEY }}
   print_version:
     needs: create_ocp_aws_ipi
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  
     steps:
+      - name: Print cluster name
+        run: echo "CLUSTER_NAME=${{ needs.create_ocp_aws_ipi.outputs.cluster_name }}"
+
       - name: Print the versions
         run: oc version
