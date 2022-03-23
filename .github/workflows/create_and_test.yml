@@ -40,6 +40,10 @@ jobs:
       - name: Print the versions
         run: oc version
 
+      - name: Save the pull secret
+        run: echo '${{ secrets.PULL_SECRET }}' > cluster-pull-secret.json
+
+
       - name: Extract openshift-tests binary
         run: |
           OPENSHIFT_TESTS_IMAGE=$(oc get is -n openshift tests -o=jsonpath='{.spec.tags[0].from.name}')
