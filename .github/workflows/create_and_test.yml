@@ -1,0 +1,53 @@
+name: Create cluster and query it
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        type: string
+        description: safety flag
+        required: false
+        default: 'true'
+
+jobs:
+  create_ocp_aws_ipi:
+    uses: CaravanaCloud/RedHatNotebooks/.github/workflows/create_ocp_aws_ipi.yml@main
+    with:
+      dry_run: ${{ github.event.inputs.dry_run  == 'true' }}
+    secrets:  
+      PULL_SECRET: ${{ secrets.PULL_SECRET }}
+      OCP_BASE_DOMAIN: ${{ secrets.OCP_BASE_DOMAIN }}
+      OCP_SSH_KEY: ${{ secrets.OCP_SSH_KEY }}
+      OCP_AWS_REGION: ${{ secrets.OCP_AWS_REGION }}
+      OCP_AWS_ACCESS_KEY_ID: ${{ secrets.OCP_AWS_ACCESS_KEY_ID }}
+      OCP_AWS_SECRET_ACCESS_KEY: ${{ secrets.OCP_AWS_SECRET_ACCESS_KEY }}
+  
+  print_version:
+    needs: create_ocp_aws_ipi
+    runs-on: ubuntu-latest  
+    steps:
+      - name: Print cluster name
+        run: echo "CLUSTER_NAME=${{ needs.create_ocp_aws_ipi.outputs.cluster_name }}"
+
+      - name: Download install-dir
+        uses: actions/download-artifact@v3
+        with:
+          name: install-dir
+          path: install-dir
+      
+      - name: Print the versions
+        run: oc version
+        env:
+          KUBECONFIG: ./install-dir/auth/kubeconfig
+
+      - name: Extract openshift-tests binary
+        run: |
+          OPENSHIFT_TESTS_IMAGE=$(oc get is -n openshift tests -o=jsonpath='{.spec.tags[0].from.name}')
+          oc image extract -a cluster-pull-secret.json "${OPENSHIFT_TESTS_IMAGE}" --file="/tmp/openshift-tests"
+          chmod +x openshift-tests
+
+      - name: Run tests
+        run: openshift-tests run openshift/conformance/parallel -o parallel-conformance.log
+
+      - name: Debug stuff
+        run: find .
