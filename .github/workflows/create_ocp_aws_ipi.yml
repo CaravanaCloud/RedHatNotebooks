@@ -76,17 +76,17 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v2
 
-      - name: Cache openshift-install
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-openshift-install
-        with:
-          path: /usr/local/bin/
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('openshift-install') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
+#      - name: Cache openshift-install
+#        uses: actions/cache@v2
+#        env:
+#          cache-name: cache-openshift-install
+#        with:
+#          path: /usr/local/bin/
+#          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('openshift-install') }}
+#          restore-keys: |
+#            ${{ runner.os }}-build-${{ env.cache-name }}-
+#            ${{ runner.os }}-build-
+#            ${{ runner.os }}-
 
       - name: Download OpenShift Installer
         env:
@@ -139,12 +139,14 @@ jobs:
 
       - name: Store kubeconfig
         uses: actions/upload-artifact@v3
+        if: ${{ inputs.dry_run == 'false' }} 
         with:
           name: kubeconfig
           path: /tmp/install-dir/auth/kubeconfig
           retention-days: 14
-      
+      #TODO Encrypt
       - name: Store install-dir
+        if: ${{ inputs.dry_run == 'false' }} 
         uses: actions/upload-artifact@v3
         with:
           name: install-dir
