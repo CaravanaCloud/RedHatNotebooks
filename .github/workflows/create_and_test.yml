@@ -48,10 +48,17 @@ jobs:
         run: |
           OPENSHIFT_TESTS_IMAGE=$(oc get is -n openshift tests -o=jsonpath='{.spec.tags[0].from.name}')
           oc image extract -a cluster-pull-secret.json "${OPENSHIFT_TESTS_IMAGE}" --file="/tmp/openshift-tests"
-          chmod +x openshift-tests
+          chmod +x /tmp/openshift-tests
 
       - name: Run tests
-        run: openshift-tests run openshift/conformance/parallel -o parallel-conformance.log
+        run: /tmp/openshift-tests run openshift/conformance/parallel -o conformance.log
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: conformance.log
+          path: conformance.log
+          retention-days: 14
 
       - name: Debug stuff
         run: find .
