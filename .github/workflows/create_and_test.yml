@@ -27,12 +27,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       KUBECONFIG: ./install-dir/auth/kubeconfig
+    
     steps:
-      - name: Debug Step
-        run: |
-          echo "github.event.inputs.dry_run=${{ github.event.inputs.dry_run }}"
-          echo "inputs.dry_run=${{inputs.dry_run}}"
-          echo "---"
 
       - name: Print cluster name
         run: echo "CLUSTER_NAME=${{ needs.create_ocp_aws_ipi.outputs.cluster_name }}"
@@ -49,12 +45,22 @@ jobs:
 
       - name: Save the pull secret
         run: echo '${{ secrets.PULL_SECRET }}' > cluster-pull-secret.json
+      
+      - name: Debug Step
+        run: |
+          echo "github.event.inputs.dry_run=${{ github.event.inputs.dry_run }}"
+          echo "inputs.dry_run=${{inputs.dry_run}}"
+          echo "-"
+          find .
+          echo "---"
 
       - name: Extract openshift-tests binary
         if: ${{ github.event.inputs.dry_run == 'false' }} 
         run: |
           OPENSHIFT_TESTS_IMAGE=$(oc get is -n openshift tests -o=jsonpath='{.spec.tags[0].from.name}')
+          echo oc image extract -a cluster-pull-secret.json "${OPENSHIFT_TESTS_IMAGE}" --file="/tmp/openshift-tests"
           oc image extract -a cluster-pull-secret.json "${OPENSHIFT_TESTS_IMAGE}" --file="/tmp/openshift-tests"
+          ls -liah /tmp/
           chmod +x /tmp/openshift-tests
 
       - name: Run tests
