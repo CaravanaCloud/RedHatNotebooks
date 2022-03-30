@@ -21,6 +21,8 @@ jobs:
       OCP_AWS_REGION: ${{ secrets.OCP_AWS_REGION }}
       OCP_AWS_ACCESS_KEY_ID: ${{ secrets.OCP_AWS_ACCESS_KEY_ID }}
       OCP_AWS_SECRET_ACCESS_KEY: ${{ secrets.OCP_AWS_SECRET_ACCESS_KEY }}
+      FILE_KEY: ${{ secrets.FILE_KEY }}
+
   
   run_tests:
     needs: create_ocp_aws_ipi
