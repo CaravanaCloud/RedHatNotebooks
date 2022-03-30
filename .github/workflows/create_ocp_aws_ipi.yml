@@ -118,11 +118,8 @@ jobs:
       - name: Encrypt Install Config
         run: openssl enc -e -a -aes256 -pbkdf2 -k ${{ secrets.FILE_KEY }} -in "$OCP_INSTALL_CONFIG" -out "${OCP_INSTALL_CONFIG}.enc"
 
-      - name: Decrypt Install Config
-        run: openssl enc -e -a -aes256 -pbkdf2 -k ${{ secrets.FILE_KEY }} -d -in "${OCP_INSTALL_CONFIG}.enc" -out "${OCP_INSTALL_CONFIG}.dec"
-
-      - name: Debug Install Config
-        run: cat "${OCP_INSTALL_CONFIG}.dec"
+#      - name: Decrypt Install Config
+#        run: openssl enc -e -a -aes256 -pbkdf2 -k ${{ secrets.FILE_KEY }} -d -in "${OCP_INSTALL_CONFIG}.enc" -out "${OCP_INSTALL_CONFIG}.dec"
 
       - name: Preserve encrypted install onfig
         uses: actions/upload-artifact@v3
@@ -145,18 +142,15 @@ jobs:
           echo "-- INSTALL_DIR"
           find "$OCP_INSTALL_DIR"
 
-      - name: Store kubeconfig
-        uses: actions/upload-artifact@v3
+      - name: Bundle encrypted install dir
         if: ${{ inputs.dry_run == 'false' }} 
-        with:
-          name: kubeconfig
-          path: /tmp/install-dir/auth/kubeconfig
-          retention-days: 14
-      #TODO Encrypt
+        run: tar -czf - * | openssl enc -e -aes256 -out install-dir.tar.gz.enc
+        working-directory: ${{ env.OCP_INSTALL_DIR }}
+
       - name: Store install-dir
         if: ${{ inputs.dry_run == 'false' }} 
         uses: actions/upload-artifact@v3
         with:
           name: install-dir
-          path: /tmp/install-dir
+          path: install-dir.tar.gz.enc
           retention-days: 7

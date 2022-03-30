@@ -68,6 +68,11 @@ jobs:
       - name: Run tests
         if: ${{ github.event.inputs.dry_run == 'false' }} 
         run: ./openshift-tests run openshift/conformance/parallel -o conformance.log
+        continue-on-error: true
+
+
+      - name: Debug stuff
+        run: find .
 
       - name: Upload test results
         if: ${{ github.event.inputs.dry_run == 'false' }} 
@@ -77,5 +82,3 @@ jobs:
           path: conformance.log
           retention-days: 14
 
-      - name: Debug stuff
-        run: find .
