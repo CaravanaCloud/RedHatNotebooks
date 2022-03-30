@@ -58,10 +58,10 @@ jobs:
         if: ${{ github.event.inputs.dry_run == 'false' }} 
         run: |
           OPENSHIFT_TESTS_IMAGE=$(oc get is -n openshift tests -o=jsonpath='{.spec.tags[0].from.name}')
-          echo oc image extract -a cluster-pull-secret.json "${OPENSHIFT_TESTS_IMAGE}" --file="/tmp/openshift-tests"
-          oc image extract -a cluster-pull-secret.json "${OPENSHIFT_TESTS_IMAGE}" --file="/tmp/openshift-tests"
-          ls -liah /tmp/
-          chmod +x /tmp/openshift-tests
+          echo oc image extract -a cluster-pull-secret.json "${OPENSHIFT_TESTS_IMAGE}" --file="./openshift-tests"
+          oc image extract -a cluster-pull-secret.json "${OPENSHIFT_TESTS_IMAGE}" --file="./openshift-tests"
+          ls -liah ./
+          chmod +x ./openshift-tests
 
       - name: Run tests
         if: ${{ inputs.dry_run == 'false' }} 
