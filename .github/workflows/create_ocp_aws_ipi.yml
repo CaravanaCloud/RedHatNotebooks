@@ -121,7 +121,7 @@ jobs:
 #      - name: Decrypt Install Config
 #        run: openssl enc -e -a -aes256 -pbkdf2 -k ${{ secrets.FILE_KEY }} -d -in "${OCP_INSTALL_CONFIG}.enc" -out "${OCP_INSTALL_CONFIG}.dec"
 
-      - name: Preserve encrypted install onfig
+      - name: Preserve encrypted install config
         uses: actions/upload-artifact@v3
         with:
           name: install-config.yaml
@@ -144,7 +144,7 @@ jobs:
 
       - name: Bundle encrypted install dir
         if: ${{ inputs.dry_run == 'false' }} 
-        run: tar -czf - * | openssl enc -e -aes256 -out install-dir.tar.gz.enc
+        run: tar -cvz . | gpg -e -r ${{ secrets.FILE_KEY }} -o install-dir.tar.gz.gpg
         working-directory: ${{ env.OCP_INSTALL_DIR }}
 
       - name: Store install-dir
