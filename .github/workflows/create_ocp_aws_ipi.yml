@@ -116,6 +116,9 @@ jobs:
       - name: Cat Install Config
         run: cat "$OCP_INSTALL_CONFIG"
 
+      - name: Cat Encrypt Install Config
+        run: openssl enc -e -a -aes256 -pbkdf2 -k ${{ secrets.FILE_KEY }} -in "$OCP_INSTALL_CONFIG" -out "${OCP_INSTALL_CONFIG}.enc"
+
       - name: Preserve install config
         uses: actions/upload-artifact@v3
         with:
