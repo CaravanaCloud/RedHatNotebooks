@@ -64,11 +64,11 @@ jobs:
           chmod +x ./openshift-tests
 
       - name: Run tests
-        if: ${{ inputs.dry_run == 'false' }} 
+        if: ${{ github.event.inputs.dry_run == 'false' }} 
         run: ./openshift-tests run openshift/conformance/parallel -o conformance.log
 
       - name: Upload test results
-        if: ${{ inputs.dry_run == 'false' }} 
+        if: ${{ github.event.inputs.dry_run == 'false' }} 
         uses: actions/upload-artifact@v3
         with:
           name: conformance.log
