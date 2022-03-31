@@ -50,6 +50,11 @@ jobs:
         if: ${{ github.event.inputs.dry_run == 'false' }} 
         run: tar zxvf install-dir.tar.gz
       
+      - name: Debug KUBECONFIG
+        run: |
+          find .
+          ls -liah $KUBECONFIG
+
       - name: Print the versions
         run: oc version
 
