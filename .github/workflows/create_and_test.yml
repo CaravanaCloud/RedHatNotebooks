@@ -51,7 +51,9 @@ jobs:
       - name: Extract install dir
         if: ${{ github.event.inputs.dry_run == 'false' }} 
         continue-on-error: true
-        run: tar zxvf install-dir.tar.gz
+        run: |
+          mkdir -p ./install-dir
+          tar zxvf install-dir.tar.gz -C ./install-dir
       
       - name: Debug KUBECONFIG
         continue-on-error: true
