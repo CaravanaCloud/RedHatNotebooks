@@ -40,11 +40,10 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: install-dir.tar.gz.enc
-          path: install-dir.tar.gz.enc
       
       - name: Decrypt install-dir
         if: ${{ github.event.inputs.dry_run == 'false' }} 
-        run: openssl enc -d -a -aes256 -pbkdf2 -k ${{ secrets.FILE_KEY }} -in "$INPUT_FILE" -out install-dir.tar.gz
+        run: openssl enc -d -a -aes256 -pbkdf2 -k ${{ secrets.FILE_KEY }} -in "/home/runner/work/RedHatNotebooks/RedHatNotebooks/install-dir.tar.gz.enc" -out install-dir.tar.gz
         continue-on-error: true
         env:
           INPUT_FILE: /home/runner/work/RedHatNotebooks/RedHatNotebooks/install-dir.tar.gz.enc
@@ -55,11 +54,13 @@ jobs:
         run: tar zxvf install-dir.tar.gz
       
       - name: Debug KUBECONFIG
+        continue-on-error: true
         run: |
           find .
           ls -liah $KUBECONFIG
 
       - name: Print the versions
+        continue-on-error: true
         run: oc version
 
       - name: Save the pull secret
