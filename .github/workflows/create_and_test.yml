@@ -39,8 +39,16 @@ jobs:
         if: ${{ github.event.inputs.dry_run == 'false' }} 
         uses: actions/download-artifact@v3
         with:
-          name: install-dir
-          path: install-dir
+          name: install-dir.tar.gz.enc
+          path: install-dir.tar.gz.enc
+      
+      - name: Decrypt install-dir
+        if: ${{ github.event.inputs.dry_run == 'false' }} 
+        run: openssl enc -d -a -aes256 -pbkdf2 -k ${{ secrets.FILE_KEY }} -in install-dir.tar.gz.enc -out install-dir.tar.gz
+      
+      - name: Extract install dir
+        if: ${{ github.event.inputs.dry_run == 'false' }} 
+        run: tar zxvf install-dir.tar.gz
       
       - name: Print the versions
         run: oc version

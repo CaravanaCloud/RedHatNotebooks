@@ -155,6 +155,6 @@ jobs:
         if: ${{ inputs.dry_run == 'false' }} 
         uses: actions/upload-artifact@v3
         with:
-          name: install-dir
+          name: install-dir.tar.gz.enc
           path: /tmp/install-dir.tar.gz.enc
           retention-days: 7
