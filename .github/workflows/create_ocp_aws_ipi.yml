@@ -146,9 +146,11 @@ jobs:
         if: ${{ inputs.dry_run == 'false' }} 
         working-directory: ${{ env.OCP_INSTALL_DIR }}
         run: |
-          echo "bundle"
-          tar -czvf "/tmp/install-dir.tar.gz" "$OCP_INSTALL_DIR"
-          echo "encrypt"
+          echo "-- bundle"
+          tar -czvf "/tmp/install-dir.tar.gz" "."
+          echo "-- check"
+          tar -ztvf /tmp/install-dir.tar.gz
+          echo "-- encrypt"
           openssl enc -e -a -aes256 -pbkdf2 -k "${{ secrets.FILE_KEY }}" -in "/tmp/install-dir.tar.gz" -out "/tmp/install-dir.tar.gz.enc"
 
       - name: Store encrypted install-dir
