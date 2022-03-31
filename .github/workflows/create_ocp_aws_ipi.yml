@@ -144,13 +144,17 @@ jobs:
 
       - name: Bundle encrypted install dir
         if: ${{ inputs.dry_run == 'false' }} 
-        run: tar -cvz . | gpg -e -r ${{ secrets.FILE_KEY }} -o install-dir.tar.gz.gpg
         working-directory: ${{ env.OCP_INSTALL_DIR }}
+        run: |
+          echo "bundle"
+          tar -czvf "/tmp/install-dir.tar.gz" "$OCP_INSTALL_DIR"
+          echo "encrypt"
+          openssl enc -e -a -aes256 -pbkdf2 -k "${{ secrets.FILE_KEY }}" -in "/tmp/install-dir.tar.gz" -out "/tmp/install-dir.tar.gz.enc"
 
-      - name: Store install-dir
+      - name: Store encrypted install-dir
         if: ${{ inputs.dry_run == 'false' }} 
         uses: actions/upload-artifact@v3
         with:
           name: install-dir
-          path: install-dir.tar.gz.enc
+          path: /tmp/install-dir.tar.gz.enc
           retention-days: 7
