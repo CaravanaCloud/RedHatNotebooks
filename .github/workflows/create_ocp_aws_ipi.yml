@@ -78,17 +78,17 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v2
 
-#      - name: Cache openshift-install
-#        uses: actions/cache@v2
-#        env:
-#          cache-name: cache-openshift-install
-#        with:
-#          path: /usr/local/bin/
-#          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('openshift-install') }}
-#          restore-keys: |
-#            ${{ runner.os }}-build-${{ env.cache-name }}-
-#            ${{ runner.os }}-build-
-#            ${{ runner.os }}-
+      - name: Cache openshift-install
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-openshift-install
+        with:
+          path: /usr/local/bin/
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('openshift-install') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
 
       - name: Download OpenShift Installer
         env:
@@ -98,19 +98,25 @@ jobs:
           INSTALL_TARGET: /tmp/openshift-installer/openshift-install
           INSTALL_PATH: /usr/local/bin/
         run: |
-          mkdir -p "$INSTALL_DIR"
-          wget -nv -O "$INSTALL_FILE" "$INSTALL_URL"
-          tar zxvf "$INSTALL_FILE" -C "$INSTALL_DIR"
-          sudo mv  "$INSTALL_TARGET" "$INSTALL_PATH" 
-          rm "$INSTALL_FILE"
+          if [ -f $INSTALL_PATH ]
+          then
+              echo "Using cached openshift-installer"
+          else
+              echo "Downloading openshift-installer"
+              mkdir -p "$INSTALL_DIR"
+              wget -nv -O "$INSTALL_FILE" "$INSTALL_URL"
+              tar zxvf "$INSTALL_FILE" -C "$INSTALL_DIR"
+              sudo mv  "$INSTALL_TARGET" "$INSTALL_PATH" 
+              rm "$INSTALL_FILE"
+          fi
 
       - name: Check Openshift Installer
         run: openshift-install version
 
-      - name: Create Install Dir
+      - name: Create install dir
         run: mkdir -p "$OCP_INSTALL_DIR"
       
-      - name: Generate Install Config
+      - name: Generate install config
         run: envsubst < "$OCP_INSTALL_TEMPLATE" > "$OCP_INSTALL_CONFIG"
         env:
           OCP_NAME: ${{ steps.generate-cluster-name.outputs.value }}
@@ -124,7 +130,7 @@ jobs:
       - name: Preserve encrypted install config
         uses: actions/upload-artifact@v3
         with:
-          name: install-config.yaml
+          name: install-config.yaml.enc
           path: "${{ env.OCP_INSTALL_CONFIG }}.enc"
           retention-days: 14
 
@@ -133,14 +139,6 @@ jobs:
         env:
           LOG_LEVEL: info
         run: openshift-install create cluster --dir "$OCP_INSTALL_DIR" --log-level=$LOG_LEVEL
-
-      - name: Debug stuff
-        run: |
-          echo "-- HOME=$HOME"
-          echo "-- PWD=$PWD"
-          find . 
-          echo "-- INSTALL_DIR"
-          find "$OCP_INSTALL_DIR"
 
       - name: Bundle encrypted install dir
         if: ${{ inputs.dry_run == 'false' }} 
