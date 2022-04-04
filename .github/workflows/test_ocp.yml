@@ -8,6 +8,9 @@ on:
         description: safety flag
         required: false
         default: 'true'
+    secrets:
+      FILE_KEY:
+        required: true
 
 env:
   OCP_DRY_RUN: ${{ inputs.dry_run }}

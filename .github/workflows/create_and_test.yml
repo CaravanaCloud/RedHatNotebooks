@@ -34,5 +34,5 @@ jobs:
     uses: CaravanaCloud/RedHatNotebooks/.github/workflows/test_ocp.yml@main
     with:
       dry_run: ${{ github.event.inputs.dry_run }}
-
-
+    secrets:
+      FILE_KEY: ${{ secrets.FILE_KEY }}
