@@ -16,7 +16,7 @@ on:
               #  'openshift/conformance/parallel'
 
 jobs:
-  create_ocp_aws_ipi:
+  create_cluster:
     uses: CaravanaCloud/RedHatNotebooks/.github/workflows/create_ocp_aws_ipi.yml@main
     with:
       dry_run: ${{ github.event.inputs.dry_run }}
@@ -30,6 +30,7 @@ jobs:
       FILE_KEY: ${{ secrets.FILE_KEY }}
 
   test_ocp:
+    needs: create_cluster
     uses: CaravanaCloud/RedHatNotebooks/.github/workflows/test_ocp.yml@main
     with:
       dry_run: ${{ github.event.inputs.dry_run }}
