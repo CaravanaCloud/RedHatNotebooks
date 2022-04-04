@@ -1,0 +1,76 @@
+name: Test cluster using openshift-tests
+
+on: 
+  workflow_call:
+    inputs:
+      dry_run:
+        type: string
+        description: safety flag
+        required: false
+        default: 'true'
+
+    secrets:
+
+env:
+  OCP_DRY_RUN: ${{ inputs.dry_run }}
+
+jobs:
+  run_tests:
+    needs: create_ocp_aws_ipi
+    runs-on: ubuntu-latest
+
+    env:
+      KUBECONFIG: ./install-dir/auth/kubeconfig
+    
+    steps:
+      - name: Print cluster name
+        run: echo "CLUSTER_NAME=${{ needs.create_ocp_aws_ipi.outputs.cluster_name }}"
+
+      - name: Download install dir
+        if: ${{ inputs.dry_run == 'false' }} 
+        uses: actions/download-artifact@v3
+        with:
+          name: install-dir.tar.gz.enc
+      
+      - name: Decrypt install dir
+        if: ${{ inputs.dry_run == 'false' }} 
+        run: openssl enc -d -a -aes256 -pbkdf2 -k ${{ secrets.FILE_KEY }} -in "/home/runner/work/RedHatNotebooks/RedHatNotebooks/install-dir.tar.gz.enc" -out install-dir.tar.gz
+        continue-on-error: true
+        env:
+          INPUT_FILE: /home/runner/work/RedHatNotebooks/RedHatNotebooks/install-dir.tar.gz.enc
+      
+      - name: Extract install dir
+        if: ${{ inputs.dry_run == 'false' }} 
+        continue-on-error: true
+        run: |
+          mkdir -p ./install-dir
+          tar zxvf install-dir.tar.gz -C ./install-dir
+
+      - name: Print the versions
+        continue-on-error: true
+        run: oc version
+
+      - name: Save the pull secret
+        run: echo '${{ secrets.PULL_SECRET }}' > cluster-pull-secret.json
+
+      - name: Extract openshift-tests binary
+        if: ${{ inputs.dry_run == 'false' }} 
+        run: |
+          OPENSHIFT_TESTS_IMAGE=$(oc get is -n openshift tests -o=jsonpath='{.spec.tags[0].from.name}')
+          echo oc image extract -a cluster-pull-secret.json "${OPENSHIFT_TESTS_IMAGE}" --file="/usr/bin/openshift-tests"
+          oc image extract -a cluster-pull-secret.json "${OPENSHIFT_TESTS_IMAGE}" --file="/usr/bin/openshift-tests"
+          ls -liah ./
+          chmod +x ./openshift-tests
+
+      - name: Run tests
+        if: ${{ inputs.dry_run == 'false' }} 
+        run: ./openshift-tests run "${{ inputs.test_suite }}" -o openshift-tests.log
+        continue-on-error: true
+
+      - name: Upload test results
+        if: ${{ inputs.dry_run == 'false' }} 
+        uses: actions/upload-artifact@v3
+        with:
+          name: openshift-tests.log
+          path: openshift-tests.log
+          retention-days: 14

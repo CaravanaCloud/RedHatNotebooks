@@ -29,64 +29,9 @@ jobs:
       OCP_AWS_SECRET_ACCESS_KEY: ${{ secrets.OCP_AWS_SECRET_ACCESS_KEY }}
       FILE_KEY: ${{ secrets.FILE_KEY }}
 
-  
-  run_tests:
-    needs: create_ocp_aws_ipi
-    runs-on: ubuntu-latest
-    env:
-      KUBECONFIG: ./install-dir/auth/kubeconfig
-    
-    steps:
+  create_ocp_aws_ipi:
+    uses: CaravanaCloud/RedHatNotebooks/.github/workflows/test_ocp.yml@main
+    with:
+      dry_run: ${{ github.event.inputs.dry_run }}
 
-      - name: Print cluster name
-        run: echo "CLUSTER_NAME=${{ needs.create_ocp_aws_ipi.outputs.cluster_name }}"
-
-      - name: Download install dir
-        if: ${{ github.event.inputs.dry_run == 'false' }} 
-        uses: actions/download-artifact@v3
-        with:
-          name: install-dir.tar.gz.enc
-      
-      - name: Decrypt install dir
-        if: ${{ github.event.inputs.dry_run == 'false' }} 
-        run: openssl enc -d -a -aes256 -pbkdf2 -k ${{ secrets.FILE_KEY }} -in "/home/runner/work/RedHatNotebooks/RedHatNotebooks/install-dir.tar.gz.enc" -out install-dir.tar.gz
-        continue-on-error: true
-        env:
-          INPUT_FILE: /home/runner/work/RedHatNotebooks/RedHatNotebooks/install-dir.tar.gz.enc
-      
-      - name: Extract install dir
-        if: ${{ github.event.inputs.dry_run == 'false' }} 
-        continue-on-error: true
-        run: |
-          mkdir -p ./install-dir
-          tar zxvf install-dir.tar.gz -C ./install-dir
-
-      - name: Print the versions
-        continue-on-error: true
-        run: oc version
-
-      - name: Save the pull secret
-        run: echo '${{ secrets.PULL_SECRET }}' > cluster-pull-secret.json
-
-      - name: Extract openshift-tests binary
-        if: ${{ github.event.inputs.dry_run == 'false' }} 
-        run: |
-          OPENSHIFT_TESTS_IMAGE=$(oc get is -n openshift tests -o=jsonpath='{.spec.tags[0].from.name}')
-          echo oc image extract -a cluster-pull-secret.json "${OPENSHIFT_TESTS_IMAGE}" --file="/usr/bin/openshift-tests"
-          oc image extract -a cluster-pull-secret.json "${OPENSHIFT_TESTS_IMAGE}" --file="/usr/bin/openshift-tests"
-          ls -liah ./
-          chmod +x ./openshift-tests
-
-      - name: Run tests
-        if: ${{ github.event.inputs.dry_run == 'false' }} 
-        run: ./openshift-tests run "${{ github.event.inputs.test_suite }}" -o openshift-tests.log
-        continue-on-error: true
-
-      - name: Upload test results
-        if: ${{ github.event.inputs.dry_run == 'false' }} 
-        uses: actions/upload-artifact@v3
-        with:
-          name: openshift-tests.log
-          path: openshift-tests.log
-          retention-days: 14
 
