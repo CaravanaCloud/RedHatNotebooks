@@ -14,16 +14,12 @@ env:
 
 jobs:
   run_tests:
-    needs: create_ocp_aws_ipi
     runs-on: ubuntu-latest
 
     env:
       KUBECONFIG: ./install-dir/auth/kubeconfig
     
     steps:
-      - name: Print cluster name
-        run: echo "CLUSTER_NAME=${{ needs.create_ocp_aws_ipi.outputs.cluster_name }}"
-
       - name: Download install dir
         if: ${{ inputs.dry_run == 'false' }} 
         uses: actions/download-artifact@v3
