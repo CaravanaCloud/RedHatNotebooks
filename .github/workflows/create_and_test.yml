@@ -29,7 +29,7 @@ jobs:
       OCP_AWS_SECRET_ACCESS_KEY: ${{ secrets.OCP_AWS_SECRET_ACCESS_KEY }}
       FILE_KEY: ${{ secrets.FILE_KEY }}
 
-  create_ocp_aws_ipi:
+  test_ocp:
     uses: CaravanaCloud/RedHatNotebooks/.github/workflows/test_ocp.yml@main
     with:
       dry_run: ${{ github.event.inputs.dry_run }}
