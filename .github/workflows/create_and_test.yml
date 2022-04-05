@@ -32,8 +32,13 @@ jobs:
   test_ocp:
     needs: create_cluster
     uses: CaravanaCloud/RedHatNotebooks/.github/workflows/test_ocp.yml@main
+    continue-on-error: true
     with:
       dry_run: ${{ github.event.inputs.dry_run }}
     secrets:
       FILE_KEY: ${{ secrets.FILE_KEY }}
       PULL_SECRET: ${{ secrets.PULL_SECRET }}
+
+  prune_resources:
+    - name: Task Tree
+      uses: CaravanaCloud/task-tree@v1.0.20220404210504
