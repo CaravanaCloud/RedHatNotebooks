@@ -31,7 +31,7 @@ jobs:
         run: aws sts get-caller-identity
 
   create_cluster:
-    needs: aws-auth
+    needs: aws_auth
     uses: CaravanaCloud/RedHatNotebooks/.github/workflows/create_ocp_aws_ipi.yml@main
     with:
       dry_run: ${{ github.event.inputs.dry_run }}
