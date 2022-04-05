@@ -57,11 +57,11 @@ jobs:
   cleanup_resources:
     needs: test_ocp
     steps:
-      name: Cleanup resources
-      uses: CaravanaCloud/task-tree@v1.0.20220404210504
-      env:
-        TT_TASK: cleanup-aws
-        TT_DRYRUN: false
-        TT_AWS_REGIONS: ${{ env.OCP_AWS_REGION }}
-        TT_AWS_CLEANUP_PREFIX: rhnb-
-        TT_OCP_BASEDOMAIN: devcluster.openshift.com
+      - name: Cleanup resources
+        uses: CaravanaCloud/task-tree@v1.0.20220404210504
+        env:
+          TT_TASK: cleanup-aws
+          TT_DRYRUN: false
+          TT_AWS_REGIONS: ${{ env.OCP_AWS_REGION }}
+          TT_AWS_CLEANUP_PREFIX: rhnb-
+          TT_OCP_BASEDOMAIN: devcluster.openshift.com
