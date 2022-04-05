@@ -16,7 +16,7 @@ on:
               #  'openshift/conformance/parallel'
 
 jobs:
-  aws_auth:
+  test_cluster:
     runs-on: ubuntu-latest
     steps:
       - name: Configure AWS Credentials
