@@ -47,7 +47,6 @@ jobs:
   test_cluster:
     needs: create_cluster
     uses: CaravanaCloud/RedHatNotebooks/.github/workflows/test_ocp.yml@main
-    continue-on-error: true
     with:
       dry_run: ${{ github.event.inputs.dry_run }}
     secrets:
