@@ -54,7 +54,7 @@ jobs:
       PULL_SECRET: ${{ secrets.PULL_SECRET }}
 
   cleanup_resources:
-    needs: test_ocp
+    needs: test_cluster
     runs-on: ubuntu-latest
     steps:
       - name: Cleanup resources
