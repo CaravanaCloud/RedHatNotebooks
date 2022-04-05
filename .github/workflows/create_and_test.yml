@@ -55,6 +55,7 @@ jobs:
 
   cleanup_resources:
     needs: test_ocp
+    runs-on: ubuntu-latest
     steps:
       - name: Cleanup resources
         uses: CaravanaCloud/task-tree@v1.0.20220404210504
