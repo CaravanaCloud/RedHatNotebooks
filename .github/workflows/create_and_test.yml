@@ -54,7 +54,6 @@ jobs:
 
       - name: cleanup_resources
         needs: test_ocp
-        name: Task Tree
         uses: CaravanaCloud/task-tree@v1.0.20220404210504
         env:
           TT_TASK: cleanup-aws
