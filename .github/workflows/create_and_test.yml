@@ -36,3 +36,4 @@ jobs:
       dry_run: ${{ github.event.inputs.dry_run }}
     secrets:
       FILE_KEY: ${{ secrets.FILE_KEY }}
+      PULL_SECRET: ${{ secrets.PULL_SECRET }}

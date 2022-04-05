@@ -11,6 +11,8 @@ on:
     secrets:
       FILE_KEY:
         required: true
+      PULL_SECRET:
+        required: true
 
 env:
   OCP_DRY_RUN: ${{ inputs.dry_run }}
@@ -42,6 +44,7 @@ jobs:
         run: |
           mkdir -p ./install-dir
           tar zxvf install-dir.tar.gz -C ./install-dir
+          find .
 
       - name: Print the versions
         continue-on-error: true
