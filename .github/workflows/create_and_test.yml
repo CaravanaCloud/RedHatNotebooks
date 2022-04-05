@@ -16,7 +16,7 @@ on:
               #  'openshift/conformance/parallel'
 
 jobs:
-  test_cluster:
+  aws_auth:
     runs-on: ubuntu-latest
     
     steps:
@@ -30,35 +30,36 @@ jobs:
       - name: Check AWS Credentials
         run: aws sts get-caller-identity
 
-      - name: create_cluster
-        uses: CaravanaCloud/RedHatNotebooks/.github/workflows/create_ocp_aws_ipi.yml@main
-        with:
-          dry_run: ${{ github.event.inputs.dry_run }}
-        secrets:  
-          PULL_SECRET: ${{ secrets.PULL_SECRET }}
-          OCP_BASE_DOMAIN: ${{ secrets.OCP_BASE_DOMAIN }}
-          OCP_SSH_KEY: ${{ secrets.OCP_SSH_KEY }}
-          OCP_AWS_REGION: ${{ secrets.OCP_AWS_REGION }}
-          OCP_AWS_ACCESS_KEY_ID: ${{ secrets.OCP_AWS_ACCESS_KEY_ID }}
-          OCP_AWS_SECRET_ACCESS_KEY: ${{ secrets.OCP_AWS_SECRET_ACCESS_KEY }}
-          FILE_KEY: ${{ secrets.FILE_KEY }}
+  create_cluster:
+    needs: aws-auth
+    uses: CaravanaCloud/RedHatNotebooks/.github/workflows/create_ocp_aws_ipi.yml@main
+    with:
+      dry_run: ${{ github.event.inputs.dry_run }}
+    secrets:  
+      PULL_SECRET: ${{ secrets.PULL_SECRET }}
+      OCP_BASE_DOMAIN: ${{ secrets.OCP_BASE_DOMAIN }}
+      OCP_SSH_KEY: ${{ secrets.OCP_SSH_KEY }}
+      OCP_AWS_REGION: ${{ secrets.OCP_AWS_REGION }}
+      OCP_AWS_ACCESS_KEY_ID: ${{ secrets.OCP_AWS_ACCESS_KEY_ID }}
+      OCP_AWS_SECRET_ACCESS_KEY: ${{ secrets.OCP_AWS_SECRET_ACCESS_KEY }}
+      FILE_KEY: ${{ secrets.FILE_KEY }}
+  
+  test_cluster:
+    needs: create_cluster
+    uses: CaravanaCloud/RedHatNotebooks/.github/workflows/test_ocp.yml@main
+    continue-on-error: true
+    with:
+      dry_run: ${{ github.event.inputs.dry_run }}
+    secrets:
+      FILE_KEY: ${{ secrets.FILE_KEY }}
+      PULL_SECRET: ${{ secrets.PULL_SECRET }}
 
-      - name: test_ocp
-        needs: create_cluster
-        uses: CaravanaCloud/RedHatNotebooks/.github/workflows/test_ocp.yml@main
-        continue-on-error: true
-        with:
-          dry_run: ${{ github.event.inputs.dry_run }}
-        secrets:
-          FILE_KEY: ${{ secrets.FILE_KEY }}
-          PULL_SECRET: ${{ secrets.PULL_SECRET }}
-
-      - name: cleanup_resources
-        needs: test_ocp
-        uses: CaravanaCloud/task-tree@v1.0.20220404210504
-        env:
-          TT_TASK: cleanup-aws
-          TT_DRYRUN: false
-          TT_AWS_REGIONS: ${{ env.OCP_AWS_REGION }}
-          TT_AWS_CLEANUP_PREFIX: rhnb-
-          TT_OCP_BASEDOMAIN: devcluster.openshift.com
+  cleanup_resources:
+    needs: test_ocp
+    uses: CaravanaCloud/task-tree@v1.0.20220404210504
+    env:
+      TT_TASK: cleanup-aws
+      TT_DRYRUN: false
+      TT_AWS_REGIONS: ${{ env.OCP_AWS_REGION }}
+      TT_AWS_CLEANUP_PREFIX: rhnb-
+      TT_OCP_BASEDOMAIN: devcluster.openshift.com
