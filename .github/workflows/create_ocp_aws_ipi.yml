@@ -21,7 +21,7 @@ on:
     secrets:
       OCP_AWS_REGION:
         required: true
-        PULL_SECRET:
+      PULL_SECRET:
           required: true
       OCP_BASE_DOMAIN:
         required: true
