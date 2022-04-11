@@ -158,9 +158,9 @@ jobs:
           echo "-- version"
           openssl version
           echo "-- encrypt"
-          openssl aes-256-cbc enc -a -pbkdf2 -k "${{ secrets.FILE_KEY }}" -in "/tmp/install-dir.tar.gz" -out "/tmp/install-dir.tar.gz.enc"
+          openssl enc -aes-256-cbc -a -salt -pbkdf2 -k "${{ secrets.FILE_KEY }}" -in "/tmp/install-dir.tar.gz" -out "/tmp/install-dir.tar.gz.enc"
           echo "-- decrypt"
-          openssl aes-256-cbc enc -d -a -pbkdf2 -k ${{ secrets.FILE_KEY }} -in "/tmp/install-dir.tar.gz.enc" -out "/tmp/install-dir.tar.gz.dec"
+          openssl enc -aes-256-cbc -d -a -pbkdf2 -k ${{ secrets.FILE_KEY }} -in "/tmp/install-dir.tar.gz.enc" -out "/tmp/install-dir.tar.gz.dec"
           echo "-- list decrypt"
           tar tzvf /tmp/install-dir.tar.gz.dec
           echo "-- bundle done"
