@@ -142,13 +142,13 @@ jobs:
           retention-days: 14
 
       - name: Create cluster
-        if: ${{ inputs.dry_run == 'false' ||  github.event.inputs.dry_run = 'false' }}
+        if: ${{ inputs.dry_run == 'false' ||  github.event.inputs.dry_run == 'false' }}
         env:
           LOG_LEVEL: info
         run: openshift-install create cluster --dir "$OCP_INSTALL_DIR" --log-level=$LOG_LEVEL
 
       - name: Bundle encrypted install dir
-        if: ${{ inputs.dry_run == 'false' ||  github.event.inputs.dry_run = 'false' }}
+        if: ${{ inputs.dry_run == 'false' ||  github.event.inputs.dry_run == 'false' }}
         working-directory: ${{ env.OCP_INSTALL_DIR }}
         run: |
           echo "-- bundle"
@@ -159,7 +159,7 @@ jobs:
           openssl enc -e -a -aes256 -pbkdf2 -k "${{ secrets.FILE_KEY }}" -in "/tmp/install-dir.tar.gz" -out "/tmp/install-dir.tar.gz.enc"
 
       - name: Store encrypted install-dir
-        if: ${{ inputs.dry_run == 'false' ||  github.event.inputs.dry_run = 'false' }}
+        if: ${{ inputs.dry_run == 'false' ||  github.event.inputs.dry_run == 'false' }}
         uses: actions/upload-artifact@v3
         with:
           name: install-dir.tar.gz.enc
