@@ -155,12 +155,12 @@ jobs:
           tar -czvf "/tmp/install-dir.tar.gz" "."
           echo "-- check"
           tar -ztvf /tmp/install-dir.tar.gz
-          echo "-- encrypt"
-          openssl enc -e -a -aes256 -pbkdf2 -k "${{ secrets.FILE_KEY }}" -in "/tmp/install-dir.tar.gz" -out "/tmp/install-dir.tar.gz.enc"
           echo "-- version"
           openssl version
+          echo "-- encrypt"
+          openssl aes-256-cbc enc -a -pbkdf2 -k "${{ secrets.FILE_KEY }}" -in "/tmp/install-dir.tar.gz" -out "/tmp/install-dir.tar.gz.enc"
           echo "-- decrypt"
-          openssl enc -e -a -aes256 -pbkdf2 -k ${{ secrets.FILE_KEY }} -d -in "/tmp/install-dir.tar.gz.enc" -out "/tmp/install-dir.tar.gz.dec"
+          openssl aes-256-cbc enc -d -a -pbkdf2 -k ${{ secrets.FILE_KEY }} -in "/tmp/install-dir.tar.gz.enc" -out "/tmp/install-dir.tar.gz.dec"
           echo "-- list decrypt"
           tar tzvf /tmp/install-dir.tar.gz.dec
           echo "-- bundle done"
