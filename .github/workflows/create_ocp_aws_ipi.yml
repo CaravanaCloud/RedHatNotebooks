@@ -1,7 +1,14 @@
 # git commit --allow-empty -am "Updated ocp ipi workflow $(date)" && git push && gh workflow run provision_ocp_ipi.yml
 name: Provision cluster using OCP IPI
 
-on: 
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        type: string
+        description: safety flag
+        required: false
+        default: 'true'
   workflow_call:
     inputs:
       dry_run:
@@ -9,11 +16,11 @@ on:
         description: safety flag
         required: false
         default: 'true'
-      aws_region:
-        type: string
-        description: TODO AWS Region
-        required: false
-        default: us-east-1
+#      aws_region:
+#        type: string
+#        description: TODO AWS Region
+#        required: false
+#        default: us-east-1
     outputs:
       cluster_name:
         description: Generated cluster name
@@ -135,13 +142,13 @@ jobs:
           retention-days: 14
 
       - name: Create cluster
-        if: ${{ inputs.dry_run == 'false' }} 
+        if: ${{ inputs.dry_run == 'false' ||  github.event.inputs.dry_run = 'false' }}
         env:
           LOG_LEVEL: info
         run: openshift-install create cluster --dir "$OCP_INSTALL_DIR" --log-level=$LOG_LEVEL
 
       - name: Bundle encrypted install dir
-        if: ${{ inputs.dry_run == 'false' }} 
+        if: ${{ inputs.dry_run == 'false' ||  github.event.inputs.dry_run = 'false' }}
         working-directory: ${{ env.OCP_INSTALL_DIR }}
         run: |
           echo "-- bundle"
@@ -152,7 +159,7 @@ jobs:
           openssl enc -e -a -aes256 -pbkdf2 -k "${{ secrets.FILE_KEY }}" -in "/tmp/install-dir.tar.gz" -out "/tmp/install-dir.tar.gz.enc"
 
       - name: Store encrypted install-dir
-        if: ${{ inputs.dry_run == 'false' }} 
+        if: ${{ inputs.dry_run == 'false' ||  github.event.inputs.dry_run = 'false' }}
         uses: actions/upload-artifact@v3
         with:
           name: install-dir.tar.gz.enc
