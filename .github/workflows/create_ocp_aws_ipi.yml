@@ -159,9 +159,9 @@ jobs:
           openssl version
           echo "-- encrypt"
           openssl enc -aes-256-cbc -a -salt -pbkdf2 -k "${{ secrets.FILE_KEY }}" -in "/tmp/install-dir.tar.gz" -out "/tmp/install-dir.tar.gz.enc"
-          echo "-- decrypt"
+          echo "-- try decrypt"
           openssl enc -aes-256-cbc -d -a -pbkdf2 -k ${{ secrets.FILE_KEY }} -in "/tmp/install-dir.tar.gz.enc" -out "/tmp/install-dir.tar.gz.dec"
-          echo "-- list decrypt"
+          echo "-- check decrypt"
           tar tzvf /tmp/install-dir.tar.gz.dec
           echo "-- bundle done"
 
