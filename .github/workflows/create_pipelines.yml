@@ -50,8 +50,32 @@ jobs:
           oc: "4.10.8"
           tkn: "0.21.0"
 
+      - name: Download install dir
+        if: ${{ github.event.inputs.dry_run.dry_run == 'false' }}
+        uses: actions/download-artifact@v3
+        with:
+          name: install-dir.tar.gz.enc
+
+      - name: Decrypt install dir
+        if: ${{  github.event.inputs.dry_run.dry_run == 'false' }}
+        run: openssl enc -aes-256-cbc -d -a -pbkdf2 -k ${{ secrets.FILE_KEY }} -in  "/home/runner/work/RedHatNotebooks/RedHatNotebooks/install-dir.tar.gz.enc" -out "install-dir.tar.gz"
+        env:
+          INPUT_FILE: /home/runner/work/RedHatNotebooks/RedHatNotebooks/install-dir.tar.gz.enc
+
+      - name: Extract install dir
+        if: ${{  github.event.inputs.dry_run.dry_run == 'false' }}
+        run: |
+          mkdir -p ./install-dir
+          tar zxvf install-dir.tar.gz -C ./install-dir
+          find .
+
+      - name: Print the versions
+        continue-on-error: true
+        run: oc version
+
       - name: Check if kubeconfig auth is present
+        continue-on-error: true
         run: find .
 
-      - name: Install CLI tools from OpenShift Mirror
+      - name: Subscribe to pipelines
         run: oc apply -f pipelines/sub.yml
