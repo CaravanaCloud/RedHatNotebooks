@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="9b74267e-34e8-4af2-9d4f-79dd92888f42" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.github/workflows/create_pipelines.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/create_pipelines.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/git-push-all.sh" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/git-push-all.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
