@@ -40,10 +40,6 @@ jobs:
   install_pipelines:
     needs: create_cluster
     runs-on: ubuntu-latest
-
-    env:
-      KUBECONFIG: ./install-dir/auth/kubeconfig
-
     steps:
       - name: Check out code
         uses: actions/checkout@v2
@@ -90,4 +86,3 @@ jobs:
 
       - name: Subscribe to pipelines
         run: oc apply -f pipelines/sub.yml
-º
