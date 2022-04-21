@@ -40,13 +40,11 @@ jobs:
   install_pipelines:
     needs: create_cluster
     runs-on: ubuntu-latest
-    steps:
-      - name: debug
-        run: |
-          echo "github.event.inputs.dry_run=${{github.event.inputs.dry_run}}"
-          echo "inputs.dry_run=${{inputs.dry_run}}"
-          find .
 
+    env:
+      KUBECONFIG: ./install-dir/auth/kubeconfig
+
+    steps:
       - name: Check out code
         uses: actions/checkout@v2
 
@@ -83,5 +81,13 @@ jobs:
         continue-on-error: true
         run: find .
 
+      - name: debug
+        run: |
+          echo "github.event.inputs.dry_run=${{github.event.inputs.dry_run}}"
+          echo "inputs.dry_run=${{inputs.dry_run}}"
+          echo "KUBECONFIG=$KUBECONFIG"
+          find .
+
       - name: Subscribe to pipelines
         run: oc apply -f pipelines/sub.yml
+º
