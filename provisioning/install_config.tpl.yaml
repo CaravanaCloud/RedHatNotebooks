@@ -17,7 +17,6 @@ controlPlane:
       type: $OCP_CONTROL_TYPE
   replicas: $OCP_CONTROL_REPLICAS
 metadata:
-  creationTimestamp: null
   name: $OCP_NAME
 networking: 
   clusterNetwork:
@@ -31,6 +30,9 @@ networking:
 platform:
   aws:
     region: $OCP_AWS_REGION
+    userTags:
+      cleanup: true
+      project: RedHatNotebooks
 publish: External
 pullSecret: '$PULL_SECRET'
 sshKey: '$OCP_SSH_KEY'
