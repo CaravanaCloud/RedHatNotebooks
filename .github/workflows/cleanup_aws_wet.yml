@@ -23,7 +23,7 @@ jobs:
           CJ_AWS_CLEANUP_PREFIX: rhnb-
 
       - name: Cloud Janitor
-        uses: CaravanaCloud/cloud-janitor@v1.0.20220426163024
+        uses: CaravanaCloud/cloud-janitor@v1.0.20220426163813
 
 
       - name: Debug
