@@ -1,18 +1,33 @@
-name: Cleanup an AWS Account (Dry Run)
+name: Cleanup AWS Account
 
 on: [workflow_dispatch]
 
-env:
-  TT_TASK: cleanup-aws
-  TT_DRYRUN: false
-  TT_OCP_BASEDIR: devcluster.openshift.com
-  TT_AWS_REGIONS: eu-west-1,ap-northeast-1
-  TT_AWS_CLEANUP_PREFIX: rhnb-  
-
 jobs:
   all-steps:
-      runs-on: ubuntu-latest
-      steps:
-        - name: Task Tree
-          uses: CaravanaCloud/task-tree@v1.0.20220318114521
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.OCP_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.OCP_AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.OCP_AWS_REGION}}
 
+      - name: Check AWS Credentials
+        run: aws sts get-caller-identity
+
+      - name: Cloud Janitor
+        uses: CaravanaCloud/cloud-janitor@v1.0.20220426163813
+        env:
+          CJ_TASK: cleanup-aws
+          CJ_DRYRUN: false
+          CJ_OCP_BASEDIR: devcluster.openshift.com
+          CJ_AWS_REGIONS: eu-west-1,ap-northeast-1
+          CJ_AWS_CLEANUP_PREFIX: rhnb-
+
+
+      - name: Debug
+        run: find .
+
+      - name: Debug more
+        run: cat cloudjanitor.csv

@@ -5,8 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9b74267e-34e8-4af2-9d4f-79dd92888f42" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.github/workflows/create_pipelines.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/create_pipelines.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/cleanup_aws_wet.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/cleanup_aws_wet.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
