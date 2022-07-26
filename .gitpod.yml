@@ -5,6 +5,9 @@ image:
 tasks:
   - name: Jupyter Notebook
     command: jupyter notebook
+  
+  - name:
+    command: echo hello world!
 
 ports:
   - port: 5000
