@@ -6,7 +6,7 @@ tasks:
   - name: Jupyter Notebook
     command: jupyter notebook
   
-  - name:
+  - name: Salute!
     command: echo hello world!
 
 ports:
