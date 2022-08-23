@@ -1,4 +1,5 @@
-# git commit --allow-empty -am "Updated ocp ipi workflow $(date)" && git push && gh workflow run provision_ocp_ipi.yml
+# git commit --allow-empty -am "Updated ocp ipi workflow $(date)" && git push
+# gh workflow run provision_ocp_ipi.yml
 name: Provision cluster using OCP IPI
 
 on:
@@ -9,6 +10,11 @@ on:
         description: safety flag
         required: false
         default: 'true'
+      instance_type:
+        type: string
+        description: instance type to create
+        required: false
+        default: 'm5.2xlarge'
   workflow_call:
     inputs:
       dry_run:
@@ -16,11 +22,11 @@ on:
         description: safety flag
         required: false
         default: 'true'
-#      aws_region:
-#        type: string
-#        description: TODO AWS Region
-#        required: false
-#        default: us-east-1
+      instance_type:
+        type: string
+        description: instance type to create
+        required: false
+        default: 'm5.2xlarge'
     outputs:
       cluster_name:
         description: Generated cluster name
@@ -29,10 +35,10 @@ on:
       OCP_AWS_REGION:
         required: true
       PULL_SECRET:
-          required: true
+        required: true
       OCP_BASE_DOMAIN:
         required: true
-      OCP_SSH_KEY: 
+      OCP_SSH_KEY:
         required: true
       OCP_AWS_ACCESS_KEY_ID:
         required: true
@@ -51,10 +57,11 @@ env:
   OCP_AWS_REGION: ${{ secrets.OCP_AWS_REGION }}
   OCP_ARCH: amd64
   OCP_WORKER_REPLICAS: 3
-  OCP_WORKER_TYPE: m5.2xlarge
-  OCP_CONTROL_TYPE: m5.2xlarge
+  OCP_WORKER_TYPE: t3.2xlarge
+  OCP_CONTROL_TYPE: t3.2xlarge
   OCP_CONTROL_REPLICAS: 3
   OCP_DRY_RUN: ${{ inputs.dry_run }}
+  OCP_INSTANCE_TYPE: ${{ inputs.instance_type ||  github.event.inputs.instance_type }}
 
 jobs:
   create-cluster:
@@ -81,7 +88,7 @@ jobs:
         run: echo "CLUSTER_NAME=$CLUSTER_NAME"
         env:
           CLUSTER_NAME: ${{ steps.generate-cluster-name.outputs.value }}
-      
+
       - name: Check out repository code
         uses: actions/checkout@v2
 
@@ -122,7 +129,7 @@ jobs:
 
       - name: Create install dir
         run: mkdir -p "$OCP_INSTALL_DIR"
-      
+
       - name: Generate install config
         run: envsubst < "$OCP_INSTALL_TEMPLATE" > "$OCP_INSTALL_CONFIG"
         env:
@@ -131,8 +138,8 @@ jobs:
       - name: Encrypt Install Config
         run: openssl enc -e -a -aes256 -pbkdf2 -k ${{ secrets.FILE_KEY }} -in "$OCP_INSTALL_CONFIG" -out "${OCP_INSTALL_CONFIG}.enc"
 
-#      - name: Decrypt Install Config
-#        run: openssl enc -e -a -aes256 -pbkdf2 -k ${{ secrets.FILE_KEY }} -d -in "${OCP_INSTALL_CONFIG}.enc" -out "${OCP_INSTALL_CONFIG}.dec"
+      #      - name: Decrypt Install Config
+      #        run: openssl enc -e -a -aes256 -pbkdf2 -k ${{ secrets.FILE_KEY }} -d -in "${OCP_INSTALL_CONFIG}.enc" -out "${OCP_INSTALL_CONFIG}.dec"
 
       - name: Preserve encrypted install config
         uses: actions/upload-artifact@v3
