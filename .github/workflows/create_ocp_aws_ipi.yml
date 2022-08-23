@@ -1,8 +1,9 @@
 # git commit --allow-empty -am "Updated ocp ipi workflow $(date)" && git push
-# gh workflow run provision_ocp_ipi.yml
+# gh workflow run provision_ocp_ipi.yml -f dry_run=false -f instance_type=t3.2xlarge
 name: Provision cluster using OCP IPI
 
 on:
+
   workflow_dispatch:
     inputs:
       dry_run:
@@ -15,6 +16,7 @@ on:
         description: instance type to create
         required: false
         default: 'm5.2xlarge'
+
   workflow_call:
     inputs:
       dry_run:
