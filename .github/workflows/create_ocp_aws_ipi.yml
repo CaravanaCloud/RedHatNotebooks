@@ -1,14 +1,13 @@
 # git commit --allow-empty -am "Updated ocp ipi workflow $(date)" && git push
-# gh workflow run provision_ocp_ipi.yml -f dry_run=false -f instance_type=t3.2xlarge
+# gh workflow run provision_ocp_ipi.yml -f dry_run="false" -f instance_type="t3.2xlarge"
 name: Provision cluster using OCP IPI
 
 on:
-
   workflow_dispatch:
     inputs:
       dry_run:
         type: string
-        description: safety flag
+        description: dry run
         required: false
         default: 'true'
       instance_type:
@@ -21,7 +20,7 @@ on:
     inputs:
       dry_run:
         type: string
-        description: safety flag
+        description: dry run
         required: false
         default: 'true'
       instance_type:
@@ -94,18 +93,6 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v2
 
-      - name: Cache openshift-install
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-openshift-install
-        with:
-          path: /usr/local/bin/
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('openshift-install') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-
       - name: Download OpenShift Installer
         env:
           INSTALL_URL: https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/latest/openshift-install-linux.tar.gz
@@ -114,17 +101,12 @@ jobs:
           INSTALL_TARGET: /tmp/openshift-installer/openshift-install
           INSTALL_PATH: /usr/local/bin/
         run: |
-          if [ -f $INSTALL_PATH ]
-          then
-              echo "Using cached openshift-installer"
-          else
-              echo "Downloading openshift-installer"
-              mkdir -p "$INSTALL_DIR"
-              wget -nv -O "$INSTALL_FILE" "$INSTALL_URL"
-              tar zxvf "$INSTALL_FILE" -C "$INSTALL_DIR"
-              sudo mv  "$INSTALL_TARGET" "$INSTALL_PATH" 
-              rm "$INSTALL_FILE"
-          fi
+          echo "Downloading openshift-installer"
+          mkdir -p "$INSTALL_DIR"
+          wget -nv -O "$INSTALL_FILE" "$INSTALL_URL"
+          tar zxvf "$INSTALL_FILE" -C "$INSTALL_DIR"
+          sudo mv  "$INSTALL_TARGET" "$INSTALL_PATH" 
+          rm "$INSTALL_FILE"
 
       - name: Check Openshift Installer
         run: openshift-install version
