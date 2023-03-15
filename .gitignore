@@ -140,3 +140,10 @@ temp.*
 openshift-tests
 tmp
 
+*secret.*
+
+openshift-install
+oc
+kubectl
+ccoctl
+ali-*
